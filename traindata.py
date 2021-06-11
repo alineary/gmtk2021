@@ -28,11 +28,20 @@ def get_neighbour(wagon_index, train, offset):
 
 class FirstClass:
     def __init__(self):
-        self.blacklist = []
-        self.needlist = []
+        self.blacklist = [SecondClass]
+        self.whitelist = []
+        self.needlist = [FirstClass, OnboardBistro]
 
 
 class SecondClass:
     def __init__(self):
         self.blacklist = []
-        self.needlist = [FirstClass]
+        self.whitelist = []
+        self.needlist = [FirstClass, OnboardBistro, SecondClass]
+
+
+class OnboardBistro:
+    def __init__(self):
+        self.blacklist = []
+        self.whitelist = [OnboardBistro]
+        self.needlist = [FirstClass, SecondClass]
