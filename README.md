@@ -1,5 +1,10 @@
 # GMTK 2021, Alina, Bennet, Eric, Robin
 
+## Game Idea
+We are creating a small shunting game where you have to add wagons onto waiting trains.
+When wagons are attached to favorable wagons, bonus points will be awarded while other combinations are to be avoided.
+
+
 ## Setup
 
 Clone git repo <br>
