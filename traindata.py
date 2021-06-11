@@ -28,16 +28,11 @@ def get_neighbour(wagon_index, train, offset):
 
 class FirstClass:
     def __init__(self):
-        super().__init__()
         self.blacklist = []
         self.needlist = []
 
 
 class SecondClass:
     def __init__(self):
-        super().__init__()
         self.blacklist = []
         self.needlist = [FirstClass]
-
-
-print(validate_train([SecondClass(), FirstClass(), SecondClass()]))
