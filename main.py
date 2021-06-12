@@ -47,9 +47,9 @@ def setup():
 
     # Tracks
     track_group = pygame.sprite.Group()
-    spawn_track = gameobjects.Track(pygame.Vector2(0, 250), 17, MAX_WAGONS_ON_TRACK, 55, True)
-    track1 = gameobjects.Track(pygame.Vector2(0, 400), 26, MAX_WAGONS_ON_TRACK, 300, False)
-    track2 = gameobjects.Track(pygame.Vector2(0, 550), 26, MAX_WAGONS_ON_TRACK, 300, False)
+    spawn_track = gameobjects.Track(pygame.Vector2(0, 250), 17, MAX_WAGONS_ON_TRACK, True)
+    track1 = gameobjects.Track(pygame.Vector2(0, 400), 26, MAX_WAGONS_ON_TRACK, False)
+    track2 = gameobjects.Track(pygame.Vector2(0, 550), 26, MAX_WAGONS_ON_TRACK, False)
     track_group.add(spawn_track)
     track_group.add(track1)
     track_group.add(track2)

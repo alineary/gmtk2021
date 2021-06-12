@@ -85,7 +85,7 @@ class Beauty(pygame.sprite.Sprite):
                 
 
 class Track(pygame.sprite.Sprite):
-    def __init__(self, position, length, max_wagons, train_offset, with_buffer_stop):
+    def __init__(self, position, length, max_wagons, with_buffer_stop):
         super().__init__()
         self.sprite = pygame.image.load(os.path.join('resources', 'tracks.png'))
         self.buffer_sprite = pygame.image.load(os.path.join('resources', 'bumper.png'))
@@ -93,7 +93,6 @@ class Track(pygame.sprite.Sprite):
         self.length = length
         self.wagons = []
         self.max_wagons = max_wagons
-        self.train_offset = train_offset
         self.with_buffer_stop = with_buffer_stop
 
         self.create_image()
@@ -120,7 +119,7 @@ class Track(pygame.sprite.Sprite):
         return x
 
     def wagon_x(self, i):
-        return (self.rect.width - i * WAGON_LENGTH + self.position.x - WAGON_LENGTH) - self.train_offset
+        return self.rect.width - i * WAGON_LENGTH + self.position.x - WAGON_LENGTH
 
     def full(self):
         return len(self.wagons) >= self.max_wagons
