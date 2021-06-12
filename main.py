@@ -9,6 +9,7 @@ from GUI.pause_menu import PauseMenu
 
 STATION_IMAGE = pygame.image.load(os.path.join('resources', 'station.png'))
 SAND_IMAGE = pygame.image.load(os.path.join('resources', 'sand.png'))
+LOGO = pygame.image.load(os.path.join('resources', 'wildwagons.png'))
 CACTI = [pygame.image.load(os.path.join('resources', 'cactus_1.png')),
          pygame.image.load(os.path.join('resources', 'cactus_2.png')),
          pygame.image.load(os.path.join('resources', 'cactus_3.png'))]
@@ -33,13 +34,11 @@ def setup():
     pygame.init()
     screen = pygame.display.set_mode([1280, 720])
     pygame.display.set_caption("Wild Wagons")
+    pygame.display.set_icon(LOGO)
 
     clock = pygame.time.Clock()
     running = True
     menu = PauseMenu((1280, 720)).pause_menu
-
-    # def update():
-    #     print("")
     sprite_group = pygame.sprite.Group()
 
     # Wagon
