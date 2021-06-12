@@ -1,5 +1,6 @@
 import sys
 import pygame
+import os
 from pygame.locals import *
 
 clock = pygame.time.Clock()
@@ -15,13 +16,13 @@ display = pygame.Surface((200, 150))
 small_things = pygame.Surface((400, 300))
 background = pygame.Surface((800, 600))
 
-sand_img = pygame.image.load("resources\sand.png")
-station_img = pygame.image.load("resources\station.png")
-cactus_1 = pygame.image.load("resources\cactus_1.png")
-cactus_2 = pygame.image.load("resources\cactus_2.png")
-cactus_3 = pygame.image.load("resources\cactus_3.png")
-track_img = pygame.image.load("resources\\tracks.png")
-bumper_img = pygame.image.load("resources\\bumper.png")
+sand_img = pygame.image.load(os.path.join('resources', 'sand.png'))
+station_img = pygame.image.load(os.path.join('resources', 'station.png'))
+cactus_1 = pygame.image.load(os.path.join('resources', 'cactus_1.png'))
+cactus_2 = pygame.image.load(os.path.join('resources', 'cactus_2.png'))
+cactus_3 = pygame.image.load(os.path.join('resources', 'cactus_3.png'))
+track_img = pygame.image.load(os.path.join('resources', 'tracks.png'))
+bumper_img = pygame.image.load(os.path.join('resources', 'bumper.png'))
 while True:
     t_count = round(WINDOW_SIZE[0] / 3.75 / sand_img.get_width())
     i = 0
