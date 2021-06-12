@@ -12,7 +12,7 @@ class PauseMenu:
         pause_menu = pygame_menu.Menu("Menu", self.window_size[0], self.window_size[1], center_content=True,
                                       theme=wild_west)
 
-        pause_menu.add.button('Play', self.close, background_color=(101, 66, 41), font_color=(229, 204, 175))
+        pause_menu.add.button('Play', self.toggle, background_color=(101, 66, 41), font_color=(229, 204, 175))
         pause_menu.add.button('Quit', pygame_menu.events.PYGAME_QUIT, background_color=(101, 66, 41),
                               font_color=(229, 204, 175))
         pause_menu.add.image("resources/station.png")  # temporary
@@ -20,5 +20,8 @@ class PauseMenu:
 
         return pause_menu
 
-    def close(self):
-        self.pause_menu.disable()
+    def toggle(self):
+        if self.pause_menu.is_enabled():
+            self.pause_menu.disable()
+        else:
+            self.pause_menu.enable()
