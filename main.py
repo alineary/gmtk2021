@@ -6,6 +6,7 @@ import wagon_spawner
 import os
 import gameobjects
 
+from GUI.pause_menu import PauseMenu
 
 STATION_IMAGE = pygame.image.load(os.path.join('resources', 'station.png'))
 SAND_IMAGE = pygame.image.load(os.path.join('resources', 'sand.png'))
@@ -14,11 +15,13 @@ CACTI = [pygame.image.load(os.path.join('resources', 'cactus_1.png')),
          pygame.image.load(os.path.join('resources', 'cactus_3.png'))]
 MAX_WAGONS_ON_TRACK = 5
 
+
 def setup():
     global screen
     global clock
     global running
     global screen
+    global menu
     global wagon_group
     global sprite_group
     global draggable_sprites
@@ -27,13 +30,17 @@ def setup():
     global station_group
     global track_group
     global spawn_track
-    
+
     pygame.init()
     screen = pygame.display.set_mode([1280, 720])
     pygame.display.set_caption("Wild Wagons")
 
     clock = pygame.time.Clock()
     running = True
+    menu = PauseMenu((1280, 720)).pause_menu
+
+    # def update():
+    #     print("")
     sprite_group = pygame.sprite.Group()
 
     # Wagon
@@ -65,7 +72,9 @@ def setup():
         x = random.randrange(32, 1248, 1)
         y = random.randrange(32, 688, 1)
         beauty = gameobjects.Beauty(random.choice(CACTI), pygame.Vector2(x, y), 70)
-        if len(pygame.sprite.spritecollide(beauty, station_group, False)) > 0 or len(pygame.sprite.spritecollide(beauty, cactus_group, False)) > 0 or len(pygame.sprite.spritecollide(beauty, track_group, False)) > 0:
+        if len(pygame.sprite.spritecollide(beauty, station_group, False)) > 0 or len(
+                pygame.sprite.spritecollide(beauty, cactus_group, False)) > 0 or len(
+                pygame.sprite.spritecollide(beauty, track_group, False)) > 0:
             beauty.kill()
         else:
             cactus_group.add(beauty)
@@ -81,12 +90,19 @@ def update():
 
 def draw():
     screen.fill((255, 255, 255))
+
     background_group.draw(screen)
     cactus_group.draw(screen)
     track_group.draw(screen)
     wagon_group.draw(screen)
     sprite_group.draw(screen)
     station_group.draw(screen)
+
+    # menu
+    if menu.is_enabled():
+        menu.update(events)
+        if menu.is_enabled():
+            menu.draw(screen)
 
     pygame.display.update()
 
@@ -96,13 +112,13 @@ def game_loop():
 
     setup()
     while running:
-
         events = pygame.event.get()
         for event in events:
             if event.type == pygame.QUIT:
                 sys.exit(0)
-
-        update()
-
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    menu.toggle()
+        # update()
         draw()
         clock.tick(60)
