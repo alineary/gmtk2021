@@ -24,15 +24,14 @@ def setup():
     # Wagon
     wagon_group = pygame.sprite.Group()
 
-    draggable_sprites = [wagon]
-    sprite_group.add(draggable_sprites)
+    draggable_sprites = []
+
 
 def update():
     for wagon in wagon_group:
         wagon.update()
     wagon_spawner.update()
     drag_n_drop.update()
-
 
 
 def draw():
