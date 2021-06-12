@@ -4,12 +4,14 @@ import os
 
 import utils
 
-WAGON_LENGTH = 60
+WAGON_LENGTH = 90
+WAGON_Y_OFFSET = -52
+SIZE = 50
 
 
 class Wagon(drag_n_drop.DraggableSprite):
     def __init__(self, wagon_data, position, image):
-        super().__init__(image)
+        super().__init__(image, SIZE * 2)
         self.rect = self.image.get_rect()
         self.wagon_data = wagon_data
         self.target = None
@@ -83,16 +85,19 @@ class Beauty(pygame.sprite.Sprite):
                 
 
 class Track(pygame.sprite.Sprite):
-    def __init__(self, position, length, max_wagons):
+    def __init__(self, position, length, max_wagons, with_buffer_stop):
         super().__init__()
         self.sprite = pygame.image.load(os.path.join('resources', 'tracks.png'))
+        self.buffer_sprite = pygame.image.load(os.path.join('resources', 'bumper.png'))
         self.position = position
         self.length = length
         self.wagons = []
         self.max_wagons = max_wagons
+        self.with_buffer_stop = with_buffer_stop
 
-        self.create_rect()
         self.create_image()
+        self.rect = self.image.get_rect()
+        self.rect.topleft = self.position
 
     def add_wagon(self, wagon):
         if self.full() is False:
@@ -100,16 +105,14 @@ class Track(pygame.sprite.Sprite):
             return True
         return False
 
-    def create_rect(self):
-        rect = pygame.rect.Rect(self.position.x, self.position.y, self.length * self.sprite.get_width(), self.sprite.get_height())
-        self.rect = rect
-
     def create_image(self):
-        image = pygame.Surface(self.rect.size)
-
+        image = pygame.Surface((self.length * self.sprite.get_width(), self.sprite.get_height()), pygame.SRCALPHA)
         for i in range(0, self.length):
-            image.blit(self.sprite, [i * self.sprite.get_width(), 0])
-        self.image = image
+            if i is self.length - 1 and self.with_buffer_stop is True:
+                image.blit(self.buffer_sprite, [i * self.sprite.get_width(), 0])
+            else:
+                image.blit(self.sprite, [i * self.sprite.get_width(), 0])
+        self.image = pygame.transform.scale(image, (SIZE * self.length, SIZE))
 
     def next_wagon_x(self):
         x = self.wagon_x(len(self.wagons))
@@ -125,4 +128,4 @@ class Track(pygame.sprite.Sprite):
         for i in range(0, len(self.wagons)):
             if self.wagons[i].target is None and self.wagons[i].clicked is False:
                 self.wagons[i].rect.x = self.wagon_x(i)
-                self.wagons[i].rect.y = self.rect.y
+                self.wagons[i].rect.y = self.rect.y + WAGON_Y_OFFSET

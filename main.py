@@ -1,7 +1,6 @@
 import pygame
 import sys
 import random
-import gameobjects
 import wagon_spawner
 import os
 import gameobjects
@@ -10,6 +9,7 @@ from GUI.pause_menu import PauseMenu
 
 STATION_IMAGE = pygame.image.load(os.path.join('resources', 'station.png'))
 SAND_IMAGE = pygame.image.load(os.path.join('resources', 'sand.png'))
+LOGO = pygame.image.load(os.path.join('resources', 'wildwagons.png'))
 CACTI = [pygame.image.load(os.path.join('resources', 'cactus_1.png')),
          pygame.image.load(os.path.join('resources', 'cactus_2.png')),
          pygame.image.load(os.path.join('resources', 'cactus_3.png'))]
@@ -34,13 +34,11 @@ def setup():
     pygame.init()
     screen = pygame.display.set_mode([1280, 720])
     pygame.display.set_caption("Wild Wagons")
+    pygame.display.set_icon(LOGO)
 
     clock = pygame.time.Clock()
     running = True
     menu = PauseMenu((1280, 720)).pause_menu
-
-    # def update():
-    #     print("")
     sprite_group = pygame.sprite.Group()
 
     # Wagon
@@ -49,16 +47,16 @@ def setup():
 
     # Tracks
     track_group = pygame.sprite.Group()
-    spawn_track = gameobjects.Track(pygame.Vector2(0, 0), 15, MAX_WAGONS_ON_TRACK)
-    track1 = gameobjects.Track(pygame.Vector2(0, 200), 15, MAX_WAGONS_ON_TRACK)
-    track2 = gameobjects.Track(pygame.Vector2(0, 400), 15, MAX_WAGONS_ON_TRACK)
+    spawn_track = gameobjects.Track(pygame.Vector2(0, 250), 17, MAX_WAGONS_ON_TRACK, True)
+    track1 = gameobjects.Track(pygame.Vector2(0, 400), 26, MAX_WAGONS_ON_TRACK, False)
+    track2 = gameobjects.Track(pygame.Vector2(0, 550), 26, MAX_WAGONS_ON_TRACK, False)
     track_group.add(spawn_track)
     track_group.add(track1)
     track_group.add(track2)
 
     # Station
     station_group = pygame.sprite.Group()
-    station = gameobjects.Beauty(STATION_IMAGE, pygame.Vector2(1000, 150), 250)
+    station = gameobjects.Beauty(STATION_IMAGE, pygame.Vector2(1030, 200), 250)
     station_group.add(station)
 
     # Background
@@ -66,9 +64,9 @@ def setup():
     background = gameobjects.Background(SAND_IMAGE)
     background_group.add(background)
 
-    # Beauties
+    # Cactus
     cactus_group = pygame.sprite.Group()
-    for i in range(0, 20):
+    for i in range(0, 30):
         x = random.randrange(32, 1248, 1)
         y = random.randrange(32, 688, 1)
         beauty = gameobjects.Beauty(random.choice(CACTI), pygame.Vector2(x, y), 70)
