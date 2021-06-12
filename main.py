@@ -37,7 +37,7 @@ def setup():
 
     clock = pygame.time.Clock()
     running = True
-    menu = PauseMenu((600, 400)).pause_menu
+    menu = PauseMenu((1280, 720)).pause_menu
 
 
 # def update():
