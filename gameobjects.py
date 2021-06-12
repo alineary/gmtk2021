@@ -4,12 +4,10 @@ import drag_n_drop
 
 
 class Wagon(drag_n_drop.DraggableSprite):
-    def __init__(self, wagondata, position):
-        super().__init__()
-        self.image = pygame.Surface([60, 30])
-        self.image.fill((255, 255, 255))
+    def __init__(self, wagon_data, position, image):
+        super().__init__(image)
         self.rect = self.image.get_rect()
-        self.wagondata = wagondata
+        self.wagon_data = wagon_data
         self.target = None
         self.position = position
         self.speed = 1
@@ -18,6 +16,7 @@ class Wagon(drag_n_drop.DraggableSprite):
         self.target = target
 
     def update(self):
+        super().update()
         if self.target is not None:
             direction = self.target.xy - self.position.xy
             if direction.length() < 1:

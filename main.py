@@ -1,6 +1,5 @@
 import pygame
 import sys
-import drag_n_drop
 import gameobjects
 
 
@@ -10,34 +9,42 @@ def setup():
     global running
     global screen
     global wagon
+    global wagon1
     global wagon_group
-    global sprite_group
     global draggable_sprites
 
     pygame.init()
     screen = pygame.display.set_mode([600, 600])
-    pygame.display.set_caption("Game with a Player")
+    pygame.display.set_caption("Wild Wagons")
     clock = pygame.time.Clock()
     running = True
-    sprite_group = pygame.sprite.Group()
 
     # Wagon
-    wagon = gameobjects.Wagon(None, pygame.Vector2(200, 0))
-    wagon.set_target(pygame.Vector2(200, 200))
+    wagon_image = pygame.Surface([60, 30])
+    wagon_image1 = pygame.Surface([60, 30])
+    wagon_image.fill((0, 0, 255))
+    wagon_image1.fill((0, 0, 255))
+
+    wagon = gameobjects.Wagon(None, pygame.Vector2(200, 0), wagon_image)
+    wagon1 = gameobjects.Wagon(None, pygame.Vector2(400, 0), wagon_image1)
+    wagon.set_target(pygame.Vector2(200, 10))
+    wagon1.set_target(pygame.Vector2(400, 10))
     wagon_group = pygame.sprite.Group()
     wagon_group.add(wagon)
+    wagon_group.add(wagon.ghost_image)
+    wagon_group.add(wagon1)
+    wagon_group.add(wagon1.ghost_image)
 
-    draggable_sprites = [wagon]
-    sprite_group.add(draggable_sprites)
+    draggable_sprites = [wagon, wagon1]
+
 
 def update():
-    drag_n_drop.update()
     wagon.update()
+    wagon1.update()
 
 
 def draw():
-    screen.fill((0, 0, 0))
-    sprite_group.draw(screen)
+    screen.fill((255, 255, 255))
     wagon_group.draw(screen)
     pygame.display.update()
 
