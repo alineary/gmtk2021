@@ -19,9 +19,7 @@ def setup():
     pygame.display.set_caption("Game with a Player")
     clock = pygame.time.Clock()
     running = True
-    draggable_sprites = [drag_n_drop.DraggableSprite(50, 50, (0, 0, 255))]
     sprite_group = pygame.sprite.Group()
-    sprite_group.add(draggable_sprites)
 
     # Wagon
     wagon = gameobjects.Wagon(None, pygame.Vector2(200, 0))
@@ -29,6 +27,8 @@ def setup():
     wagon_group = pygame.sprite.Group()
     wagon_group.add(wagon)
 
+    draggable_sprites = [wagon]
+    sprite_group.add(draggable_sprites)
 
 def update():
     drag_n_drop.update()

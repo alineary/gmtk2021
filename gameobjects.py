@@ -1,7 +1,9 @@
 import pygame
 
+import drag_n_drop
 
-class Wagon(pygame.sprite.Sprite):
+
+class Wagon(drag_n_drop.DraggableSprite):
     def __init__(self, wagondata, position):
         super().__init__()
         self.image = pygame.Surface([60, 30])
@@ -22,5 +24,4 @@ class Wagon(pygame.sprite.Sprite):
                 self.target = None
             else:
                 self.position += pygame.Vector2.normalize(direction) * self.speed
-
-        self.rect.center = self.position
+                self.rect.center = self.position
