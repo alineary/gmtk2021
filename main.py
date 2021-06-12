@@ -1,11 +1,9 @@
 import pygame
 import sys
 import random
-import gameobjects
 import wagon_spawner
 import os
 import gameobjects
-
 
 STATION_IMAGE = pygame.image.load(os.path.join('resources', 'station.png'))
 SAND_IMAGE = pygame.image.load(os.path.join('resources', 'sand.png'))
@@ -13,6 +11,8 @@ CACTI = [pygame.image.load(os.path.join('resources', 'cactus_1.png')),
          pygame.image.load(os.path.join('resources', 'cactus_2.png')),
          pygame.image.load(os.path.join('resources', 'cactus_3.png'))]
 MAX_WAGONS_ON_TRACK = 5
+ENGINE_OFFSET = 550
+
 
 def setup():
     global screen
@@ -27,7 +27,7 @@ def setup():
     global station_group
     global track_group
     global spawn_track
-    
+
     pygame.init()
     screen = pygame.display.set_mode([1280, 720])
     pygame.display.set_caption("Wild Wagons")
@@ -43,8 +43,8 @@ def setup():
     # Tracks
     track_group = pygame.sprite.Group()
     spawn_track = gameobjects.Track(pygame.Vector2(0, 0), 15, MAX_WAGONS_ON_TRACK)
-    track1 = gameobjects.Track(pygame.Vector2(0, 200), 15, MAX_WAGONS_ON_TRACK)
-    track2 = gameobjects.Track(pygame.Vector2(0, 400), 15, MAX_WAGONS_ON_TRACK)
+    track1 = gameobjects.Track(pygame.Vector2(0, 200), 15, MAX_WAGONS_ON_TRACK, ENGINE_OFFSET)
+    track2 = gameobjects.Track(pygame.Vector2(0, 400), 15, MAX_WAGONS_ON_TRACK, ENGINE_OFFSET)
     track_group.add(spawn_track)
     track_group.add(track1)
     track_group.add(track2)
@@ -65,7 +65,9 @@ def setup():
         x = random.randrange(32, 1248, 1)
         y = random.randrange(32, 688, 1)
         beauty = gameobjects.Beauty(random.choice(CACTI), pygame.Vector2(x, y), 70)
-        if len(pygame.sprite.spritecollide(beauty, station_group, False)) > 0 or len(pygame.sprite.spritecollide(beauty, cactus_group, False)) > 0 or len(pygame.sprite.spritecollide(beauty, track_group, False)) > 0:
+        if len(pygame.sprite.spritecollide(beauty, station_group, False)) > 0 or \
+                len(pygame.sprite.spritecollide(beauty, cactus_group, False)) > 0 or \
+                len(pygame.sprite.spritecollide(beauty, track_group, False)) > 0:
             beauty.kill()
         else:
             cactus_group.add(beauty)

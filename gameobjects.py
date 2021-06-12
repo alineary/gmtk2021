@@ -26,7 +26,7 @@ def drive_to_target(target, current_pos, speed):
 
 # TODO: Wagons are only allowed to be added when the Locomotive is at it's waiting point
 
-class Train(pygame.sprite.Sprite):
+class Engine(pygame.sprite.Sprite):
     def __init__(self, track, image, cooldown=0):
         super().__init__()
         self.track = track
@@ -133,13 +133,14 @@ class Beauty(pygame.sprite.Sprite):
 
 
 class Track(pygame.sprite.Sprite):
-    def __init__(self, position, length, max_wagons):
+    def __init__(self, position, length, max_wagons, engine_pos=None):
         super().__init__()
         self.sprite = pygame.image.load(os.path.join('resources', 'tracks.png'))
         self.position = position
         self.length = length
         self.wagons = []
         self.max_wagons = max_wagons
+        self.engine_pos = engine_pos
 
         self.create_rect()
         self.create_image()
@@ -166,7 +167,12 @@ class Track(pygame.sprite.Sprite):
 
     # The tracks width (end of track) - the wagon lengths
     def wagon_x(self, position):
-        return self.rect.width - (position + 1) * WAGON_LENGTH
+        end_pos = self.rect.width
+        if self.engine_pos is not None:
+            position += 1
+            end_pos = self.engine_pos
+
+        return end_pos - (position + 1) * WAGON_LENGTH
 
     def full(self):
         return len(self.wagons) >= self.max_wagons
