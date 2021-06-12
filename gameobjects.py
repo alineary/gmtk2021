@@ -12,6 +12,7 @@ class Wagon(drag_n_drop.DraggableSprite):
         self.wagondata = wagondata
         self.target = None
         self.position = position
+        self.rect.center = position
         self.speed = 1
 
     def set_target(self, target):

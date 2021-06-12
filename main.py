@@ -1,5 +1,6 @@
 import pygame
 import sys
+import wagon_spawner
 import drag_n_drop
 import gameobjects
 
@@ -9,7 +10,6 @@ def setup():
     global clock
     global running
     global screen
-    global wagon
     global wagon_group
     global sprite_group
     global draggable_sprites
@@ -22,17 +22,17 @@ def setup():
     sprite_group = pygame.sprite.Group()
 
     # Wagon
-    wagon = gameobjects.Wagon(None, pygame.Vector2(200, 0))
-    wagon.set_target(pygame.Vector2(200, 200))
     wagon_group = pygame.sprite.Group()
-    wagon_group.add(wagon)
 
     draggable_sprites = [wagon]
     sprite_group.add(draggable_sprites)
 
 def update():
+    for wagon in wagon_group:
+        wagon.update()
+    wagon_spawner.update()
     drag_n_drop.update()
-    wagon.update()
+
 
 
 def draw():
