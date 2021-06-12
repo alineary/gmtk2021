@@ -10,7 +10,7 @@ class DraggableSprite(pygame.sprite.Sprite):
     def __init__(self, image):
         super().__init__()
         self.image = image
-        self.ghost_image = GhostSprite(copy.copy(image))
+        self.ghost_wagon = GhostSprite(copy.copy(image))
         self.clicked = False
         self.clickOffset = pygame.Vector2()
         self.clickOffset.xy = 0, 0
@@ -35,14 +35,16 @@ class DraggableSprite(pygame.sprite.Sprite):
                     self.clicked = True
                     self.clickOffset.x = pos[0] - self.rect.x
                     self.clickOffset.y = pos[1] - self.rect.y
-                    self.ghost_image.image.set_alpha(GHOST_IMAGE_ALPHA)
-                    self.ghost_image.rect = copy.copy(self.rect)
+                    self.ghost_wagon.image.set_alpha(GHOST_IMAGE_ALPHA)
+                    self.ghost_wagon.rect = copy.copy(self.rect)
 
             if event.type == pygame.MOUSEBUTTONUP and self.clicked:
                 self.clicked = False
-                self.ghost_image.image.set_alpha(INVISIBLE_ALPHA)
-                self.rect.x = self.ghost_image.rect.x
-                self.rect.y = self.ghost_image.rect.y
+                self.ghost_wagon.image.set_alpha(INVISIBLE_ALPHA)
+                print(self.ghost_wagon.rect.y)
+                print(self.rect.y)
+                self.rect.x = self.ghost_wagon.rect.x
+                self.rect.y = self.ghost_wagon.rect.y
 
 
 class GhostSprite(pygame.sprite.Sprite):

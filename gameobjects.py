@@ -1,5 +1,4 @@
 import pygame
-
 import drag_n_drop
 
 
@@ -10,7 +9,8 @@ class Wagon(drag_n_drop.DraggableSprite):
         self.wagon_data = wagon_data
         self.target = None
         self.position = position
-        self.speed = 1
+        self.rect.center = position
+        self.speed = 5
 
     def set_target(self, target):
         self.target = target
