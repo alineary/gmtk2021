@@ -1,7 +1,6 @@
 import pygame
 import sys
 import random
-import gameobjects
 import wagon_spawner
 import os
 import gameobjects
@@ -49,16 +48,16 @@ def setup():
 
     # Tracks
     track_group = pygame.sprite.Group()
-    spawn_track = gameobjects.Track(pygame.Vector2(0, 0), 15, MAX_WAGONS_ON_TRACK)
-    track1 = gameobjects.Track(pygame.Vector2(0, 200), 15, MAX_WAGONS_ON_TRACK)
-    track2 = gameobjects.Track(pygame.Vector2(0, 400), 15, MAX_WAGONS_ON_TRACK)
+    spawn_track = gameobjects.Track(pygame.Vector2(0, 250), 17, MAX_WAGONS_ON_TRACK, 10)
+    track1 = gameobjects.Track(pygame.Vector2(0, 400), 26, MAX_WAGONS_ON_TRACK, 300)
+    track2 = gameobjects.Track(pygame.Vector2(0, 550), 26, MAX_WAGONS_ON_TRACK, 300)
     track_group.add(spawn_track)
     track_group.add(track1)
     track_group.add(track2)
 
     # Station
     station_group = pygame.sprite.Group()
-    station = gameobjects.Beauty(STATION_IMAGE, pygame.Vector2(1000, 150), 250)
+    station = gameobjects.Beauty(STATION_IMAGE, pygame.Vector2(1000, 200), 250)
     station_group.add(station)
 
     # Background
@@ -66,9 +65,9 @@ def setup():
     background = gameobjects.Background(SAND_IMAGE)
     background_group.add(background)
 
-    # Beauties
+    # Cactus
     cactus_group = pygame.sprite.Group()
-    for i in range(0, 20):
+    for i in range(0, 30):
         x = random.randrange(32, 1248, 1)
         y = random.randrange(32, 688, 1)
         beauty = gameobjects.Beauty(random.choice(CACTI), pygame.Vector2(x, y), 70)
@@ -119,6 +118,6 @@ def game_loop():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     menu.toggle()
-        # update()
+        update()
         draw()
         clock.tick(60)

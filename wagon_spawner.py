@@ -16,15 +16,12 @@ def spawn_new_wagon():
         print("You lost da game")
         return
 
-    image = pygame.Surface([60, 30])
-    image.fill((random.randrange(0, 255, 1), random.randrange(0, 255, 1), random.randrange(0, 255, 1)))
-
     random_wagon = random.choice(WAGON_TYPES)()
-    wagon = gameobjects.Wagon(random_wagon, pygame.Vector2(-100, main.spawn_track.position.y), image)
+    wagon = gameobjects.Wagon(random_wagon, pygame.Vector2(-100, main.spawn_track.position.y + gameobjects.WAGON_Y_OFFSET), random_wagon.sprite)
 
     main.wagon_group.add(wagon)
     main.sprite_group.add(wagon.ghost_sprite)
-    wagon.set_target(pygame.Vector2(main.spawn_track.next_wagon_x(), main.spawn_track.position.y))
+    wagon.set_target(pygame.Vector2(main.spawn_track.next_wagon_x(), main.spawn_track.position.y + gameobjects.WAGON_Y_OFFSET))
     main.spawn_track.add_wagon(wagon)
     wagon.track = main.spawn_track
     return wagon
