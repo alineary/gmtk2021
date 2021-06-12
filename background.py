@@ -12,9 +12,9 @@ pygame.display.set_caption('Visualization')
 WINDOW_SIZE = (800, 600)
 
 screen = pygame.display.set_mode(WINDOW_SIZE, 0, 32)
-display = pygame.Surface((200, 150))
-small_things = pygame.Surface((400, 300))
-background = pygame.Surface((800, 600))
+display = pygame.Surface((WINDOW_SIZE[0] / 4, WINDOW_SIZE[1] / 4))
+small_things = pygame.Surface((WINDOW_SIZE[0] / 2, WINDOW_SIZE[1] / 2))
+background = pygame.Surface((WINDOW_SIZE[0], WINDOW_SIZE[1]))
 
 sand_img = pygame.image.load(os.path.join('resources', 'sand.png'))
 station_img = pygame.image.load(os.path.join('resources', 'station.png'))
