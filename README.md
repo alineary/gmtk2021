@@ -1,4 +1,5 @@
-# GMTK 2021, Alina, Bennet, Eric, Robin
+# Wild Wagons
+#### GMTK 2021, Alina, Bennet, Eric, Robin
 
 ## Game Idea
 We are creating a small shunting game where you have to add wagons onto waiting trains.
