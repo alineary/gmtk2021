@@ -6,7 +6,7 @@ clock = pygame.time.Clock()
 
 pygame.init()
 
-pygame.display.set_caption('Pygame Platformer')
+pygame.display.set_caption('Visualization')
 
 WINDOW_SIZE = (800, 600)
 
