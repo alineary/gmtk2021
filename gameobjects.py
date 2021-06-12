@@ -2,6 +2,10 @@ import pygame
 import drag_n_drop
 import os
 
+import utils
+
+WAGON_LENGTH = 60
+
 
 class Wagon(drag_n_drop.DraggableSprite):
     def __init__(self, wagon_data, position, image):
@@ -47,13 +51,13 @@ class Wagon(drag_n_drop.DraggableSprite):
 
 
 class Track(pygame.sprite.Sprite):
-    def __init__(self, position, length, max):
+    def __init__(self, position, length, max_wagons):
         super().__init__()
         self.sprite = pygame.image.load(os.path.join('resources', 'tracks.png'))
         self.position = position
         self.length = length
         self.wagons = []
-        self.max = max
+        self.max_wagons = max_wagons
 
         self.create_rect()
         self.create_image()
@@ -76,14 +80,17 @@ class Track(pygame.sprite.Sprite):
         self.image = image
 
     def next_wagon_x(self):
-        x = self.rect.width - len(self.wagons) * 60 + self.position.x - 60
+        x = self.wagon_x(len(self.wagons))
         return x
 
+    def wagon_x(self, i):
+        return self.rect.width - i * WAGON_LENGTH + self.position.x - WAGON_LENGTH
+
     def full(self):
-        return len(self.wagons) >= self.max
+        return len(self.wagons) >= self.max_wagons
 
     def update(self):
         for i in range(0, len(self.wagons)):
             if self.wagons[i].target is None and self.wagons[i].clicked is False:
-                self.wagons[i].rect.x = self.rect.width - i * 60 + self.position.x - 60
+                self.wagons[i].rect.x = self.wagon_x(i)
                 self.wagons[i].rect.y = self.rect.y
