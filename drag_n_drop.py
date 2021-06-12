@@ -14,10 +14,17 @@ class DraggableSprite(pygame.sprite.Sprite):
         self.clicked = False
         self.clickOffset = pygame.Vector2()
         self.clickOffset.xy = 0, 0
+        self.draggable = True
 
     def update(self):
         self.listen_to_events()
         self.move_sprite()
+
+    def toggle_draggable(self, draggable=None):
+        if draggable is None:
+            self.draggable = not self.draggable
+        else:
+            self.draggable = draggable
 
     def move_sprite(self):
         if self.clicked:
