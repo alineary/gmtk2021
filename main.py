@@ -1,9 +1,9 @@
 import pygame
 import sys
 import wagon_spawner
-import drag_n_drop
 import gameobjects
 
+MAX_WAGONS_ON_TRACK = 5
 
 def setup():
     global screen
@@ -14,6 +14,7 @@ def setup():
     global sprite_group
     global draggable_sprites
     global track_group
+    global spawn_track
 
     pygame.init()
     screen = pygame.display.set_mode([600, 600])
@@ -28,20 +29,26 @@ def setup():
 
     # Tracks
     track_group = pygame.sprite.Group()
-    track = gameobjects.Track(pygame.Vector2(0, 0), 10, -1)
-    track_group.add(track)
+    spawn_track = gameobjects.Track(pygame.Vector2(0, 0), 15, MAX_WAGONS_ON_TRACK)
+    track1 = gameobjects.Track(pygame.Vector2(0, 200), 15, MAX_WAGONS_ON_TRACK)
+    track2 = gameobjects.Track(pygame.Vector2(0, 400), 15, MAX_WAGONS_ON_TRACK)
+    track_group.add(spawn_track)
+    track_group.add(track1)
+    track_group.add(track2)
 
 
 def update():
     for wagon in wagon_group:
         wagon.update()
     wagon_spawner.update()
+    for track in track_group:
+        track.update()
 
 
 def draw():
     screen.fill((0, 0, 0))
-    sprite_group.draw(screen)
     track_group.draw(screen)
+    sprite_group.draw(screen)
     wagon_group.draw(screen)
     pygame.display.update()
 
