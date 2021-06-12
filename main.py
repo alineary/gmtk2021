@@ -1,13 +1,12 @@
 import pygame
 import sys
-import gameobjects
+import wagon_spawner
 
 
 def setup():
     global clock
     global running
     global screen
-    global wagon
     global wagon_group
     pygame.init()
     screen = pygame.display.set_mode([600, 600])
@@ -16,14 +15,13 @@ def setup():
     running = True
 
     # Wagon
-    wagon = gameobjects.Wagon(None, pygame.Vector2(200, 0))
-    wagon.set_target(pygame.Vector2(200, 200))
     wagon_group = pygame.sprite.Group()
-    wagon_group.add(wagon)
 
 
 def update():
-    wagon.update()
+    for wagon in wagon_group:
+        wagon.update()
+    wagon_spawner.update()
 
 
 def draw():
