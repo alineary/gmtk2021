@@ -80,7 +80,6 @@ class Beauty(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(image, (size, size))
         self.rect = self.image.get_rect()
         self.rect.center = position
-        print(self.rect)
                 
 
 class Track(pygame.sprite.Sprite):

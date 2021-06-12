@@ -52,7 +52,6 @@ def setup():
     # Station
     station_group = pygame.sprite.Group()
     station = gameobjects.Beauty(STATION_IMAGE, pygame.Vector2(1000, 150), 250)
-
     station_group.add(station)
 
     # Background
@@ -66,7 +65,7 @@ def setup():
         x = random.randrange(32, 1248, 1)
         y = random.randrange(32, 688, 1)
         beauty = gameobjects.Beauty(random.choice(CACTI), pygame.Vector2(x, y), 70)
-        if len(pygame.sprite.spritecollide(beauty, station_group, False)) > 0 or len(pygame.sprite.spritecollide(beauty, cactus_group, False)) > 0:
+        if len(pygame.sprite.spritecollide(beauty, station_group, False)) > 0 or len(pygame.sprite.spritecollide(beauty, cactus_group, False)) > 0 or len(pygame.sprite.spritecollide(beauty, track_group, False)) > 0:
             beauty.kill()
         else:
             cactus_group.add(beauty)
