@@ -24,9 +24,9 @@ cactus_3 = pygame.image.load(os.path.join('resources', 'cactus_3.png'))
 track_img = pygame.image.load(os.path.join('resources', 'tracks.png'))
 bumper_img = pygame.image.load(os.path.join('resources', 'bumper.png'))
 while True:
-    t_count = round(WINDOW_SIZE[0] / 3.75 / sand_img.get_width())
+    track_count = round(WINDOW_SIZE[0] / 3.75 / track_img.get_width())
     i = 0
-    while i < t_count:
+    while i < track_count:
         small_things.blit(track_img, (i * track_img.get_width(), 125))
         i += 1
     small_things.blit(bumper_img, (i * track_img.get_width(), 125))
