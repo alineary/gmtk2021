@@ -7,13 +7,21 @@ WAGON_LENGTH = 60
 
 
 def drive_to_target(target, current_pos, speed):
+    if target is None:
+        return None
+
+    if target.x == current_pos.x and target.y == current_pos.y:
+        return None
+
     direction_x = target.x - current_pos.x
     direction_y = target.y - current_pos.y
     direction = pygame.Vector2(direction_x, direction_y)
     if direction.length() < speed:
         return target
     else:
-        return current_pos + pygame.Vector2.normalize(direction) * speed
+        current_pos.x += pygame.Vector2.normalize(direction).x * speed
+        current_pos.y += pygame.Vector2.normalize(direction).y * speed
+        return current_pos
 
 
 # TODO: Wagons are only allowed to be added when the Locomotive is at it's waiting point
@@ -30,16 +38,19 @@ class Train(pygame.sprite.Sprite):
     def update(self):
         self.timer.update()
         # TODO: If NOT waiting position of track is current position
-        if self.track is not self.rect:
-            next_pos = drive_to_target(self.track, self.rect, self.speed)
-            self.rect = next_pos
+        future_pos = drive_to_target(self.track, self.rect, self.speed)
+        if future_pos is None:
+            self.track = None
+            return
+
+        self.rect.x = future_pos.x
+        self.rect.y = future_pos.y
 
     def departure(self, cooldown):
         if not self.timer.done:
             return
 
-        # Todo: track.getWagons, implement it properly once main is merged
-        for wagon in []:
+        for wagon in self.track.wagons:
             wagon.toggle_draggable(False)
 
         self.timer = utils.Timer(cooldown)
@@ -79,13 +90,14 @@ class Wagon(drag_n_drop.DraggableSprite):
 
     def update(self):
         super().update()
-        if self.target is not None:
-            direction = self.target.xy - self.position.xy
-            if direction.length() < 1:
-                self.target = None
-            else:
-                self.position += pygame.Vector2.normalize(direction) * self.speed
-                self.rect.topleft = self.position
+        # TODO: If NOT waiting position of track is current position
+        future_pos = drive_to_target(self.target, self.rect, self.speed)
+        if future_pos is None:
+            self.target = None
+            return
+
+        self.rect.x = future_pos.x
+        self.rect.y = future_pos.y
 
 
 class Background(pygame.sprite.Sprite):
@@ -150,11 +162,11 @@ class Track(pygame.sprite.Sprite):
         self.image = image
 
     def next_wagon_x(self):
-        x = self.wagon_x(len(self.wagons))
-        return x
+        return self.wagon_x(len(self.wagons))
 
-    def wagon_x(self, i):
-        return self.rect.width - i * WAGON_LENGTH + self.position.x - WAGON_LENGTH
+    # The tracks width (end of track) - the wagon lengths
+    def wagon_x(self, position):
+        return self.rect.width - (position + 1) * WAGON_LENGTH
 
     def full(self):
         return len(self.wagons) >= self.max_wagons
