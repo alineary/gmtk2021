@@ -11,6 +11,8 @@ pygame.display.set_caption('Visualization')
 
 WINDOW_SIZE = (800, 600)
 
+SIDETRACK = 7
+
 screen = pygame.display.set_mode(WINDOW_SIZE, 0, 32)
 display = pygame.Surface((WINDOW_SIZE[0] / 4, WINDOW_SIZE[1] / 4))
 small_things = pygame.Surface((WINDOW_SIZE[0] / 2, WINDOW_SIZE[1] / 2))
@@ -24,7 +26,7 @@ cactus_3 = pygame.image.load(os.path.join('resources', 'cactus_3.png'))
 track_img = pygame.image.load(os.path.join('resources', 'tracks.png'))
 bumper_img = pygame.image.load(os.path.join('resources', 'bumper.png'))
 while True:
-    track_count = round(WINDOW_SIZE[0] / 3.75 / track_img.get_width())
+    track_count = SIDETRACK
     i = 0
     while i < track_count:
         small_things.blit(track_img, (i * track_img.get_width(), 125))
