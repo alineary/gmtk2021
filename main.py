@@ -90,11 +90,6 @@ def update():
 
 def draw():
     screen.fill((255, 255, 255))
-# menu
-    if menu.is_enabled():
-        menu.update(events)
-        if menu.is_enabled():
-            menu.draw(screen)
 
     background_group.draw(screen)
     cactus_group.draw(screen)
@@ -102,6 +97,12 @@ def draw():
     wagon_group.draw(screen)
     sprite_group.draw(screen)
     station_group.draw(screen)
+
+    # menu
+    if menu.is_enabled():
+        menu.update(events)
+        if menu.is_enabled():
+            menu.draw(screen)
 
     pygame.display.update()
 
