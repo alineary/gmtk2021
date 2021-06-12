@@ -7,6 +7,9 @@ import os
 
 STATION_IMAGE = pygame.image.load(os.path.join('resources', 'station.png'))
 SAND_IMAGE = pygame.image.load(os.path.join('resources', 'sand.png'))
+CACTI = [pygame.image.load(os.path.join('resources', 'cactus_1.png')),
+         pygame.image.load(os.path.join('resources', 'cactus_2.png')),
+         pygame.image.load(os.path.join('resources', 'cactus_3.png'))]
 
 
 def setup():
@@ -18,6 +21,8 @@ def setup():
     global sprite_group
     global draggable_sprites
     global background_group
+    global cactus_group
+    global station_group
 
     pygame.init()
     screen = pygame.display.set_mode([1280, 720])
@@ -50,6 +55,7 @@ def update():
 def draw():
     screen.fill((255, 255, 255))
     background_group.draw(screen)
+    cactus_group.draw(screen)
     wagon_group.draw(screen)
     sprite_group.draw(screen)
     pygame.display.update()
