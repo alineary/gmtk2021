@@ -109,8 +109,7 @@ class Track(pygame.sprite.Sprite):
         self.rect = rect
 
     def create_image(self):
-        image = pygame.Surface((self.length * self.sprite.get_width(), self.sprite.get_height()))
-
+        image = pygame.Surface((self.length * self.sprite.get_width(), self.sprite.get_height()), pygame.SRCALPHA)
         for i in range(0, self.length):
             image.blit(self.sprite, [i * self.sprite.get_width(), 0])
         self.image = pygame.transform.scale(image, (SIZE * self.length, SIZE))
