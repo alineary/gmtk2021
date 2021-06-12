@@ -1,7 +1,6 @@
 import pygame
 import sys
 
-from GUI import pause_menu
 from GUI.pause_menu import PauseMenu
 
 
@@ -15,8 +14,7 @@ def setup():
     pygame.display.set_caption("Game with a Player")
     clock = pygame.time.Clock()
     running = True
-    _menu = PauseMenu((600, 400))
-    menu = _menu.init_menu_surface()
+    menu = PauseMenu((600, 400)).pause_menu
 
 
 # def update():
@@ -28,7 +26,8 @@ def draw():
 
     if menu.is_enabled():
         menu.update(events)
-        menu.draw(screen)
+        if menu.is_enabled():
+            menu.draw(screen)
 
     pygame.display.update()
 
