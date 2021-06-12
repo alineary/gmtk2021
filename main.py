@@ -1,7 +1,18 @@
 import pygame
 import sys
+import random
+import gameobjects
 import wagon_spawner
+import os
+import gameobjects
 
+
+STATION_IMAGE = pygame.image.load(os.path.join('resources', 'station.png'))
+SAND_IMAGE = pygame.image.load(os.path.join('resources', 'sand.png'))
+CACTI = [pygame.image.load(os.path.join('resources', 'cactus_1.png')),
+         pygame.image.load(os.path.join('resources', 'cactus_2.png')),
+         pygame.image.load(os.path.join('resources', 'cactus_3.png'))]
+MAX_WAGONS_ON_TRACK = 5
 
 def setup():
     global screen
@@ -11,27 +22,72 @@ def setup():
     global wagon_group
     global sprite_group
     global draggable_sprites
-
+    global background_group
+    global cactus_group
+    global station_group
+    global track_group
+    global spawn_track
+    
     pygame.init()
-    screen = pygame.display.set_mode([600, 600])
+    screen = pygame.display.set_mode([1280, 720])
     pygame.display.set_caption("Wild Wagons")
+
     clock = pygame.time.Clock()
     running = True
-
-    wagon_group = pygame.sprite.Group()
     sprite_group = pygame.sprite.Group()
+
+    # Wagon
+    wagon_group = pygame.sprite.Group()
+    draggable_sprites = []
+
+    # Tracks
+    track_group = pygame.sprite.Group()
+    spawn_track = gameobjects.Track(pygame.Vector2(0, 0), 15, MAX_WAGONS_ON_TRACK)
+    track1 = gameobjects.Track(pygame.Vector2(0, 200), 15, MAX_WAGONS_ON_TRACK)
+    track2 = gameobjects.Track(pygame.Vector2(0, 400), 15, MAX_WAGONS_ON_TRACK)
+    track_group.add(spawn_track)
+    track_group.add(track1)
+    track_group.add(track2)
+
+    # Station
+    station_group = pygame.sprite.Group()
+    station = gameobjects.Beauty(STATION_IMAGE, pygame.Vector2(1000, 150), 250)
+    station_group.add(station)
+
+    # Background
+    background_group = pygame.sprite.Group()
+    background = gameobjects.Background(SAND_IMAGE)
+    background_group.add(background)
+
+    # Beauties
+    cactus_group = pygame.sprite.Group()
+    for i in range(0, 20):
+        x = random.randrange(32, 1248, 1)
+        y = random.randrange(32, 688, 1)
+        beauty = gameobjects.Beauty(random.choice(CACTI), pygame.Vector2(x, y), 70)
+        if len(pygame.sprite.spritecollide(beauty, station_group, False)) > 0 or len(pygame.sprite.spritecollide(beauty, cactus_group, False)) > 0 or len(pygame.sprite.spritecollide(beauty, track_group, False)) > 0:
+            beauty.kill()
+        else:
+            cactus_group.add(beauty)
 
 
 def update():
     for wagon in wagon_group:
         wagon.update()
     wagon_spawner.update()
+    for track in track_group:
+        track.update()
 
 
 def draw():
     screen.fill((255, 255, 255))
+    background_group.draw(screen)
+    cactus_group.draw(screen)
+    track_group.draw(screen)
     wagon_group.draw(screen)
     sprite_group.draw(screen)
+    station_group.draw(screen)
+
     pygame.display.update()
 
 
