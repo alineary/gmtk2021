@@ -1,7 +1,11 @@
+import pygame_menu
 from pygame_menu import Theme
 
-wild_west = Theme(background_color=(78, 52, 37, 80),
+font = pygame_menu.font.FONT_MUNRO
+wild_west = Theme(widget_font=font,
+                  title_font=font,
+                  title_bar_style=pygame_menu.widgets.MENUBAR_STYLE_SIMPLE,
+                  background_color=(78, 52, 37, 80),
                   title_background_color=(157, 111, 68),
-                  title_font_shadow=True,
-                  widget_padding=25
+                  widget_padding=20,
                   )
