@@ -1,37 +1,60 @@
 import sys
 import pygame
+from pygame.locals import *
 
 clock = pygame.time.Clock()
 
-from pygame.locals import *
 
 pygame.init()
 
 pygame.display.set_caption('Pygame Platformer')
 
-WINDOW_SIZE = (600,400)
+WINDOW_SIZE = (800,600)
 
 screen = pygame.display.set_mode(WINDOW_SIZE,0,32)
-display = pygame.Surface((200,133))
+display = pygame.Surface((200,150))
+small_things = pygame.Surface((400,300))
+background = pygame.Surface((800,600))
 
 sand_img = pygame.image.load("resources\sand.png")
 station_img = pygame.image.load("resources\station.png")
-
+cactus_1 = pygame.image.load("resources\cactus_1.png")
+cactus_2 = pygame.image.load("resources\cactus_2.png")
+cactus_3 = pygame.image.load("resources\cactus_3.png")
+track_img = pygame.image.load("resources\\tracks.png")
+bumper_img = pygame.image.load("resources\\bumper.png")
 while True:
-
+    t_count = round(WINDOW_SIZE[0] / 3.75 / sand_img.get_width())
+    i = 0
+    while i < t_count:
+        small_things.blit(track_img, (i * track_img.get_width(), 125))
+        i += 1
+    small_things.blit(bumper_img, (i * track_img.get_width(), 125))
     count = round(WINDOW_SIZE[0] / sand_img.get_width())
     x = 0
     while x < count:
         y = 0
         while y < count:
-            display.blit(sand_img, (x * sand_img.get_width(), y * sand_img.get_height()))
+            small_things.blit(track_img, (x * track_img.get_width(), 165))
+            small_things.blit(track_img, (x * track_img.get_width(), 205))
+            background.blit(sand_img, (x * sand_img.get_width(), y * sand_img.get_height()))
             y += 1
         x += 1
-    display.blit(station_img, (50,30))
-    for event in pygame.event.get(): # event loop
+    display.blit(station_img, (120, 20))
+    small_things.blit(cactus_1, (20, 50))
+    small_things.blit(cactus_2, (30, 90))
+    small_things.blit(cactus_3, (130, 90))
+    small_things.blit(cactus_2, (70, 70))
+    small_things.blit(cactus_3, (50, 30))
+    small_things.blit(cactus_1, (160, 80))
+    for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
-    screen.blit(pygame.transform.scale(display, WINDOW_SIZE), (0, 0))
+    pygame.Surface.set_colorkey(display,(0,0,0))
+    pygame.Surface.set_colorkey(small_things, (0, 0, 0))
+    background.blit(pygame.transform.scale(small_things, WINDOW_SIZE),(0,0))
+    background.blit(pygame.transform.scale(display, WINDOW_SIZE), (0, 0))
+    screen.blit(pygame.transform.scale(background, WINDOW_SIZE), (0, 0))
     pygame.display.update()
     clock.tick(60)
