@@ -85,14 +85,16 @@ class Beauty(pygame.sprite.Sprite):
                 
 
 class Track(pygame.sprite.Sprite):
-    def __init__(self, position, length, max_wagons, train_offset):
+    def __init__(self, position, length, max_wagons, train_offset, with_buffer_stop):
         super().__init__()
         self.sprite = pygame.image.load(os.path.join('resources', 'tracks.png'))
+        self.buffer_sprite = pygame.image.load(os.path.join('resources', 'bumper.png'))
         self.position = position
         self.length = length
         self.wagons = []
         self.max_wagons = max_wagons
         self.train_offset = train_offset
+        self.with_buffer_stop = with_buffer_stop
 
         self.create_image()
         self.rect = self.image.get_rect()
@@ -104,14 +106,13 @@ class Track(pygame.sprite.Sprite):
             return True
         return False
 
-    def create_rect(self):
-        rect = pygame.rect.Rect(self.position.x, self.position.y, self.length * self.sprite.get_width(), self.sprite.get_height())
-        self.rect = rect
-
     def create_image(self):
         image = pygame.Surface((self.length * self.sprite.get_width(), self.sprite.get_height()), pygame.SRCALPHA)
         for i in range(0, self.length):
-            image.blit(self.sprite, [i * self.sprite.get_width(), 0])
+            if i is self.length - 1 and self.with_buffer_stop is True:
+                image.blit(self.buffer_sprite, [i * self.sprite.get_width(), 0])
+            else:
+                image.blit(self.sprite, [i * self.sprite.get_width(), 0])
         self.image = pygame.transform.scale(image, (SIZE * self.length, SIZE))
 
     def next_wagon_x(self):
