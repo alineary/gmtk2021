@@ -1,4 +1,3 @@
-import pygame
 import pygame_menu
 
 from GUI.themes.wild_west import wild_west
@@ -15,10 +14,3 @@ class PauseMenu:
         pause_menu.add.button('Quit', pygame_menu.events.PYGAME_QUIT)
 
         return pause_menu
-
-
-def show_menu(pause_menu, surface):
-    pause_menu.enable()
-    if pause_menu.is_enabled():
-        pause_menu.draw(surface)
-    pygame.display.update()

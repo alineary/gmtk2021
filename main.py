@@ -24,6 +24,9 @@ def setup():
 
 def draw():
     # screen.fill((255, 255, 255))
+    if menu.is_enabled():
+        print("draw screen")
+        menu.mainloop(screen)
     pygame.display.update()
 
 
@@ -36,7 +39,8 @@ def game_loop():
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    pause_menu.show_menu(menu, screen)
+                    print("pressed")
+                    menu.disable()
                     # if event.type == pygame.KEYDOWN:
                     #    if event.key == pygame.K_ESCAPE:
                     #        pause_menu_and_surface.pause_menu.disable()
