@@ -1,6 +1,6 @@
 import pygame
 import sys
-
+import random
 import gameobjects
 import wagon_spawner
 import os
@@ -34,17 +34,27 @@ def setup():
     sprite_group = pygame.sprite.Group()
 
     # Station
-    station = pygame.sprite.Sprite()
-    station.image = pygame.transform.scale(STATION_IMAGE, (200, 200))
-    station.rect = station.image.get_rect()
-    station.rect.center = pygame.Vector2(1000, 80)
+    station_group = pygame.sprite.Group()
+    station = gameobjects.Beauty(STATION_IMAGE, pygame.Vector2(1000, 150), 250)
 
-    sprite_group.add(station)
+    station_group.add(station)
 
     # Background
     background_group = pygame.sprite.Group()
     background = gameobjects.Background(SAND_IMAGE)
     background_group.add(background)
+
+    # Beauties
+    cactus_group = pygame.sprite.Group()
+    for i in range(0, 20):
+        x = random.randrange(32, 1248, 1)
+        y = random.randrange(32, 688, 1)
+        beauty = gameobjects.Beauty(random.choice(CACTI), pygame.Vector2(x, y), 70)
+        if len(pygame.sprite.spritecollide(beauty, station_group, False)) > 0 or len(pygame.sprite.spritecollide(beauty, cactus_group, False)) > 0:
+            beauty.kill()
+        else:
+            cactus_group.add(beauty)
+
 
 def update():
     for wagon in wagon_group:
@@ -58,6 +68,7 @@ def draw():
     cactus_group.draw(screen)
     wagon_group.draw(screen)
     sprite_group.draw(screen)
+    station_group.draw(screen)
     pygame.display.update()
 
 
