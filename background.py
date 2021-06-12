@@ -4,17 +4,16 @@ from pygame.locals import *
 
 clock = pygame.time.Clock()
 
-
 pygame.init()
 
 pygame.display.set_caption('Pygame Platformer')
 
-WINDOW_SIZE = (800,600)
+WINDOW_SIZE = (800, 600)
 
-screen = pygame.display.set_mode(WINDOW_SIZE,0,32)
-display = pygame.Surface((200,150))
-small_things = pygame.Surface((400,300))
-background = pygame.Surface((800,600))
+screen = pygame.display.set_mode(WINDOW_SIZE, 0, 32)
+display = pygame.Surface((200, 150))
+small_things = pygame.Surface((400, 300))
+background = pygame.Surface((800, 600))
 
 sand_img = pygame.image.load("resources\sand.png")
 station_img = pygame.image.load("resources\station.png")
@@ -51,9 +50,9 @@ while True:
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
-    pygame.Surface.set_colorkey(display,(0,0,0))
+    pygame.Surface.set_colorkey(display, (0, 0, 0))
     pygame.Surface.set_colorkey(small_things, (0, 0, 0))
-    background.blit(pygame.transform.scale(small_things, WINDOW_SIZE),(0,0))
+    background.blit(pygame.transform.scale(small_things, WINDOW_SIZE), (0, 0))
     background.blit(pygame.transform.scale(display, WINDOW_SIZE), (0, 0))
     screen.blit(pygame.transform.scale(background, WINDOW_SIZE), (0, 0))
     pygame.display.update()
