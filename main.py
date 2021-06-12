@@ -13,6 +13,7 @@ def setup():
     global wagon_group
     global sprite_group
     global draggable_sprites
+    global track_group
 
     pygame.init()
     screen = pygame.display.set_mode([600, 600])
@@ -23,28 +24,31 @@ def setup():
 
     # Wagon
     wagon_group = pygame.sprite.Group()
-
-    track = gameobjects.Track(pygame.Vector2(0, 100), 15, -1)
-    wagon_group.add(track)
     draggable_sprites = []
+
+    # Tracks
+    track_group = pygame.sprite.Group()
+    track = gameobjects.Track(pygame.Vector2(0, 0), 10, -1)
+    track_group.add(track)
 
 
 def update():
     for wagon in wagon_group:
         wagon.update()
     wagon_spawner.update()
-    drag_n_drop.update()
 
 
 def draw():
     screen.fill((0, 0, 0))
     sprite_group.draw(screen)
+    track_group.draw(screen)
     wagon_group.draw(screen)
     pygame.display.update()
 
 
 def game_loop():
     global events
+
     setup()
     while running:
 
