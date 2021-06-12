@@ -17,6 +17,7 @@ def spawn_new_wagon():
     wagon = gameobjects.Wagon(random_wagon, pygame.Vector2(-100, 100))
     wagon.set_target(pygame.Vector2(400, 100))
     main.wagon_group.add(wagon)
+    main.draggable_sprites.append(wagon)
     # Append wagon to track
     return wagon
 

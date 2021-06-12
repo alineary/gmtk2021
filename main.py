@@ -24,6 +24,8 @@ def setup():
     # Wagon
     wagon_group = pygame.sprite.Group()
 
+    track = gameobjects.Track(pygame.Vector2(0, 100), 15, -1)
+    wagon_group.add(track)
     draggable_sprites = []
 
 
@@ -43,7 +45,6 @@ def draw():
 
 def game_loop():
     global events
-
     setup()
     while running:
 
