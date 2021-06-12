@@ -1,8 +1,6 @@
 import pygame
 import sys
 import wagon_spawner
-import drag_n_drop
-import gameobjects
 
 
 def setup():
@@ -16,28 +14,24 @@ def setup():
 
     pygame.init()
     screen = pygame.display.set_mode([600, 600])
-    pygame.display.set_caption("Game with a Player")
+    pygame.display.set_caption("Wild Wagons")
     clock = pygame.time.Clock()
     running = True
-    sprite_group = pygame.sprite.Group()
 
-    # Wagon
     wagon_group = pygame.sprite.Group()
-
-    draggable_sprites = []
+    sprite_group = pygame.sprite.Group()
 
 
 def update():
     for wagon in wagon_group:
         wagon.update()
     wagon_spawner.update()
-    drag_n_drop.update()
 
 
 def draw():
-    screen.fill((0, 0, 0))
-    sprite_group.draw(screen)
+    screen.fill((255, 255, 255))
     wagon_group.draw(screen)
+    sprite_group.draw(screen)
     pygame.display.update()
 
 
