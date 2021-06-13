@@ -15,6 +15,9 @@ LOGO = pygame.image.load(os.path.join('resources', 'wildwagons.png'))
 CACTI = [pygame.image.load(os.path.join('resources', 'cactus_1.png')),
          pygame.image.load(os.path.join('resources', 'cactus_2.png')),
          pygame.image.load(os.path.join('resources', 'cactus_3.png'))]
+PLATFORM = [pygame.transform.flip(pygame.image.load(os.path.join('resources', 'right_platform.png')),True, False),
+            pygame.image.load(os.path.join('resources', 'middle_platform.png')),
+            pygame.image.load(os.path.join('resources', 'right_platform.png'))]
 MAX_WAGONS_ON_TRACK = 5
 ENGINE_OFFSET = 800
 menu_was_enabled = False
@@ -35,6 +38,7 @@ def setup():
     global station_group
     global track_group
     global spawn_track
+    global platform_group
 
     pygame.init()
     screen = pygame.display.set_mode([1280, 720])
@@ -69,6 +73,30 @@ def setup():
     background = gameobjects.Background(SAND_IMAGE)
     background_group.add(background)
 
+    # Platforms
+    platform_group = pygame.sprite.Group()
+    platform_left = gameobjects.Beauty(PLATFORM[0], pygame.Vector2(310,440), 200)
+
+    platform = gameobjects.Beauty(PLATFORM[1], pygame.Vector2(400, 440), 200)
+    platform_group.add(platform)
+    platform = gameobjects.Beauty(PLATFORM[1], pygame.Vector2(400 + 160, 440), 200)
+    platform_group.add(platform)
+
+    platform_right = gameobjects.Beauty(PLATFORM[2], pygame.Vector2(80 + 640, 440), 200)
+    platform_group.add(platform_left)
+    platform_group.add(platform_right)
+
+    platform_left = gameobjects.Beauty(PLATFORM[0], pygame.Vector2(310,140), 200)
+    platform_group.add(platform_left)
+    o = 60
+    for i in range(0, 5):
+        platform = gameobjects.Beauty(PLATFORM[1], pygame.Vector2(0 + o, 140), 200)
+        platform_group.add(platform)
+        o += 160
+
+    platform_right = gameobjects.Beauty(PLATFORM[2], pygame.Vector2(80 + 640, 140), 200)
+    platform_group.add(platform_right)
+
     # Cactus
     cactus_group = pygame.sprite.Group()
     for i in range(0, 30):
@@ -79,7 +107,9 @@ def setup():
                 len(
                     pygame.sprite.spritecollide(beauty, cactus_group, False)) > 0 or \
                 len(
-                    pygame.sprite.spritecollide(beauty, track_group, False)) > 0:
+                    pygame.sprite.spritecollide(beauty, track_group, False)) > 0 or \
+                len(
+                    pygame.sprite.spritecollide(beauty, platform_group, False)) > 0:
             beauty.kill()
         else:
             cactus_group.add(beauty)
@@ -97,6 +127,7 @@ def draw():
     screen.fill((255, 255, 255))
 
     background_group.draw(screen)
+    platform_group.draw(screen)
     cactus_group.draw(screen)
     track_group.draw(screen)
     wagon_group.draw(screen)
