@@ -17,7 +17,6 @@ MAX_WAGONS_ON_TRACK = 5
 ENGINE_OFFSET = 550
 
 
-
 def setup():
     global screen
     global clock
@@ -74,9 +73,9 @@ def setup():
         beauty = gameobjects.Beauty(random.choice(CACTI), pygame.Vector2(x, y), 70)
         if len(pygame.sprite.spritecollide(beauty, station_group, False)) > 0 or \
                 len(
-                pygame.sprite.spritecollide(beauty, cactus_group, False)) > 0 or \
+                    pygame.sprite.spritecollide(beauty, cactus_group, False)) > 0 or \
                 len(
-                pygame.sprite.spritecollide(beauty, track_group, False)) > 0:
+                    pygame.sprite.spritecollide(beauty, track_group, False)) > 0:
             beauty.kill()
         else:
             cactus_group.add(beauty)
@@ -121,7 +120,7 @@ def game_loop():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     menu.toggle()
-        if menu.is_enabled() == False:
+        if not menu.is_enabled():
             update()
         draw()
         clock.tick(60)

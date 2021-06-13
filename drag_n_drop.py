@@ -43,7 +43,7 @@ class DraggableSprite(pygame.sprite.Sprite):
 
             if event.type == pygame.MOUSEBUTTONUP and self.clicked:
                 self.on_end_drag()
-    
+
     def on_begin_drag(self, pos):
         self.clicked = True
         self.clickOffset.x = pos[0] - self.rect.x
