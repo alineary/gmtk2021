@@ -5,6 +5,7 @@ import main
 import gameobjects
 import utils
 
+
 WAGON_TYPES = [traindata.FirstClass, traindata.SecondClass, traindata.OnboardBistro]
 WAGON_SPAWN_COOL_DOWN = 10
 
@@ -33,4 +34,3 @@ def update():
     if timer.done:
         spawn_new_wagon()
         timer = utils.Timer(WAGON_SPAWN_COOL_DOWN)
-
