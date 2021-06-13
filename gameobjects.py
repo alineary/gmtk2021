@@ -9,7 +9,7 @@ WAGON_LENGTH = 90
 WAGON_Y_OFFSET = -52
 BUFFER_X_OFFSET = -52
 SIZE = 50
-ENGINE_WAIT_TIME = 9
+ENGINE_WAIT_TIME = 10
 
 
 def drive_to_target_if_exists(target, current_pos, speed):

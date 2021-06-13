@@ -17,13 +17,14 @@ LOGO = pygame.image.load(os.path.join('resources', 'wildwagons.png'))
 CACTI = [pygame.image.load(os.path.join('resources', 'cactus_1.png')),
          pygame.image.load(os.path.join('resources', 'cactus_2.png')),
          pygame.image.load(os.path.join('resources', 'cactus_3.png'))]
-PLATFORM = [pygame.transform.flip(pygame.image.load(os.path.join('resources', 'right_platform.png')),True, False),
+PLATFORM = [pygame.transform.flip(pygame.image.load(os.path.join('resources', 'right_platform.png')), True, False),
             pygame.image.load(os.path.join('resources', 'middle_platform.png')),
             pygame.image.load(os.path.join('resources', 'right_platform.png'))]
 MAX_WAGONS_ON_ARRIVAL_TRACK = 9
 MAX_WAGONS_ON_DEPARTURE_TRACK = 6
 ENGINE_OFFSET = 800
 menu_was_enabled = False
+
 
 def setup():
     global screen
@@ -85,7 +86,7 @@ def setup():
 
     # Platforms
     platform_group = pygame.sprite.Group()
-    platform_left = gameobjects.Beauty(PLATFORM[0], pygame.Vector2(310,440), 200)
+    platform_left = gameobjects.Beauty(PLATFORM[0], pygame.Vector2(310, 440), 200)
 
     platform = gameobjects.Beauty(PLATFORM[1], pygame.Vector2(400, 440), 200)
     platform_group.add(platform)
@@ -96,7 +97,7 @@ def setup():
     platform_group.add(platform_left)
     platform_group.add(platform_right)
 
-    platform_left = gameobjects.Beauty(PLATFORM[0], pygame.Vector2(310,140), 200)
+    platform_left = gameobjects.Beauty(PLATFORM[0], pygame.Vector2(310, 140), 200)
     platform_group.add(platform_left)
     o = 60
     for i in range(0, 5):
@@ -166,9 +167,10 @@ def draw():
 
     for track in track_group:
         if track.engine is not None:
-            utils.render_timer(screen, int(track.engine.timer.countdown_time.total_seconds()), track.position + track.timer_offset)
+            utils.render_timer(screen, int(track.engine.timer.countdown_time.total_seconds()),
+                               track.position + track.timer_offset)
 
-    #score
+    # score
     utils.render_score(screen, score)
 
     # menu
