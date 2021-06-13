@@ -197,6 +197,8 @@ class Track(pygame.sprite.Sprite):
 
     def departure(self):
         # Todo: The scoring comes here
+        # Play horn Sound
+        sound.horn_sound()
         for wagon in self.wagons:
             wagon.departure()
         self.is_available = False
