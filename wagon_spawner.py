@@ -1,6 +1,5 @@
 import pygame
 import traindata
-import random
 import main
 import gameobjects
 import utils
