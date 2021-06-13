@@ -31,9 +31,9 @@ def get_neighbour(wagon_index, train, offset):
 
 class FirstClass:
     def __init__(self):
-        self.blacklist = [SecondClass]
-        self.whitelist = []
-        self.needlist = [FirstClass, OnboardBistro]
+        self.min_train_req = [SecondClass]
+        self.neighbour_req = []
+        self.max_train_req = [FirstClass, OnboardBistro]
         self.sprite = pygame.image.load(os.path.join('resources/wagons', 'first_class.png'))
 
 
@@ -59,11 +59,3 @@ class Mail:
         self.whitelist = []
         self.needlist = []
         self.sprite = pygame.image.load(os.path.join('resources/wagons', 'mail.png'))
-
-
-class Engine:
-    def __init__(self):
-        self.blacklist = []
-        self.whitelist = []
-        self.needlist = []
-        self.sprite = pygame.image.load(os.path.join('resources/wagons', 'engine.png'))

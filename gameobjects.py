@@ -197,11 +197,6 @@ class Track(pygame.sprite.Sprite):
             return True
         return False
 
-    def create_rect(self):
-        rect = pygame.rect.Rect(self.position.x, self.position.y, self.length * self.sprite.get_width(),
-                                self.sprite.get_height())
-        self.rect = rect
-
     def create_image(self):
         image = pygame.Surface((self.length * self.sprite.get_width(), self.sprite.get_height()), pygame.SRCALPHA)
         for i in range(0, self.length):
