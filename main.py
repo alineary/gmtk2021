@@ -21,6 +21,8 @@ CACTI = [pygame.image.load(os.path.join('resources', 'cactus_1.png')),
 PLATFORM = [pygame.transform.flip(pygame.image.load(os.path.join('resources', 'right_platform.png')), True, False),
             pygame.image.load(os.path.join('resources', 'middle_platform.png')),
             pygame.image.load(os.path.join('resources', 'right_platform.png'))]
+TUTORIAL = pygame.image.load(os.path.join('resources', 'tutorial.png'))
+
 MAX_WAGONS_ON_ARRIVAL_TRACK = 9
 MAX_WAGONS_ON_DEPARTURE_TRACK = 6
 ENGINE_OFFSET = 800
@@ -47,6 +49,7 @@ def setup():
     global end_screen
     global train_group
     global platform_group
+    global tutorial_group
 
     pygame.init()
     screen = pygame.display.set_mode([1280, 720])
@@ -61,6 +64,7 @@ def setup():
     score = 0
 
     sprite_group = pygame.sprite.Group()
+
 
     # Trains
     train_group = pygame.sprite.Group()
@@ -79,10 +83,14 @@ def setup():
     track_group.add(track2)
 
     # Station
-    station_group = pygame.sprite.Group()
-    station = gameobjects.Beauty(STATION_IMAGE, pygame.Vector2(1030, 200), 250)
-    station_group.add(station)
+    tutorial_group = pygame.sprite.Group()
+    tutorial = gameobjects.Tutorial(TUTORIAL, pygame.Vector2(1040, 200), 450, 240)
+    tutorial_group.add(tutorial)
 
+    #tutorial
+    station_group = pygame.sprite.Group()
+    station = gameobjects.Beauty(STATION_IMAGE, pygame.Vector2(700, 100), 150)
+    station_group.add(station)
     # Background
     background_group = pygame.sprite.Group()
     background = gameobjects.Background(SAND_IMAGE)
@@ -114,7 +122,7 @@ def setup():
 
     # Cactus
     cactus_group = pygame.sprite.Group()
-    for i in range(0, 100):
+    for i in range(0, 200):
         x = random.randrange(32, 1248, 1)
         y = random.randrange(32, 688, 1)
         beauty = gameobjects.Beauty(random.choice(CACTI), pygame.Vector2(x, y), 70)
@@ -124,8 +132,10 @@ def setup():
                 len(
                     pygame.sprite.spritecollide(beauty, track_group, False)) > 0 or \
                 len(
-                    pygame.sprite.spritecollide(beauty, platform_group, False)) > 0:
-            beauty.kill()
+                    pygame.sprite.spritecollide(beauty, platform_group, False)) > 0 or \
+                len(
+                    pygame.sprite.spritecollide(beauty, tutorial_group, False)) > 0:
+                beauty.kill()
         else:
             cactus_group.add(beauty)
 
@@ -147,7 +157,8 @@ def reset():
     for wagon in wagon_group:
         wagon.kill()
     score = 0
-    wagon_spawner.timer = utils.Timer(wagon_spawner.START_WAGON_SPAWN_COOLDOWN)
+    wagon_spawner.timer = utils.Timer(wagon_spawner.START_WAGON_SPAWN_COOL_DOWN)
+    wagon_spawner.WAGON_SPAWN_COOL_DOWN = 4
 
 
 def update():
@@ -162,6 +173,7 @@ def draw():
     screen.fill((255, 255, 255))
 
     background_group.draw(screen)
+    tutorial_group.draw(screen)
     platform_group.draw(screen)
     cactus_group.draw(screen)
     track_group.draw(screen)
