@@ -2,11 +2,13 @@ import pygame
 import drag_n_drop
 import os
 import utils
+import main
 
 WAGON_LENGTH = 60
+ENGINE_WAIT_TIME = 5
 
 
-def drive_to_target(target, current_pos, speed):
+def drive_to_target_if_exists(target, current_pos, speed):
     if target is None:
         return None
 
@@ -24,36 +26,56 @@ def drive_to_target(target, current_pos, speed):
         return current_pos
 
 
-# TODO: Wagons are only allowed to be added when the Locomotive is at it's waiting point
-
 class Engine(pygame.sprite.Sprite):
-    def __init__(self, track, image, cooldown=0):
+    def __init__(self, track):
         super().__init__()
         self.track = track
-        self.image = image
+        self.image = pygame.image.load(os.path.join('resources', 'cactus_1.png'))
+        self.image.convert_alpha()
         self.rect = self.image.get_rect()
-        self.timer = utils.Timer(cooldown)
+        self.rect.x = track.position.x
+        self.rect.y = track.position.y
+        self.timer = utils.Timer(0)
         self.speed = 5
 
     def update(self):
-        self.timer.update()
-        # TODO: If NOT waiting position of track is current position
-        future_pos = drive_to_target(self.track, self.rect, self.speed)
-        if future_pos is None:
-            self.track = None
+        self.listen_on_events()
+        self.check_for_new_train_arrivals()
+        self.move_train_if_not_waiting()
+
+    def move_train_if_not_waiting(self):
+        # TODO: Target is not necessarily engine_pos
+        next_pos = drive_to_target_if_exists(self.track.engine_pos, self.rect, self.speed)
+        if next_pos is None:
             return
+        self.rect.x = next_pos.x
+        self.rect.y = next_pos.y
 
-        self.rect.x = future_pos.x
-        self.rect.y = future_pos.y
+    def check_for_new_train_arrivals(self):
+        if not self.timer.done:
+            if self.timer.update():
+                self.track.is_available = True
+                self.image.set_alpha(255)
+                # TODO: Make a proper start position for this
+                self.rect.x = 0
 
-    def departure(self, cooldown):
+    def listen_on_events(self):
+        for event in main.events:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pos = pygame.mouse.get_pos()
+                if self.rect.collidepoint(pos):
+                    self.departure()
+
+    def departure(self):
         if not self.timer.done:
             return
 
         for wagon in self.track.wagons:
             wagon.toggle_draggable(False)
-
-        self.timer = utils.Timer(cooldown)
+        self.track.is_available = False
+        # TODO: Instead of invisible, let it drive off (+ wagons)
+        self.image.set_alpha(drag_n_drop.INVISIBLE_ALPHA)
+        self.timer = utils.Timer(ENGINE_WAIT_TIME)
 
 
 class Wagon(drag_n_drop.DraggableSprite):
@@ -90,8 +112,7 @@ class Wagon(drag_n_drop.DraggableSprite):
 
     def update(self):
         super().update()
-        # TODO: If NOT waiting position of track is current position
-        future_pos = drive_to_target(self.target, self.rect, self.speed)
+        future_pos = drive_to_target_if_exists(self.target, self.rect, self.speed)
         if future_pos is None:
             self.target = None
             return
@@ -139,11 +160,23 @@ class Track(pygame.sprite.Sprite):
         self.position = position
         self.length = length
         self.wagons = []
+        self.engine = None
         self.max_wagons = max_wagons
-        self.engine_pos = engine_pos
+        self.engine_pos = None
+        # TODO: Make use of availability
+        self.is_available = True
+        self.init_engine(engine_pos)
 
         self.create_rect()
         self.create_image()
+
+    def init_engine(self, engine_pos):
+        if engine_pos is None:
+            return None
+        self.engine_pos = pygame.Vector2(engine_pos, self.position.y)
+        self.engine = Engine(self)
+        main.wagon_group.add(self.engine)
+        return
 
     def add_wagon(self, wagon):
         if self.full() is False:
@@ -152,7 +185,8 @@ class Track(pygame.sprite.Sprite):
         return False
 
     def create_rect(self):
-        rect = pygame.rect.Rect(self.position.x, self.position.y, self.length * self.sprite.get_width(), self.sprite.get_height())
+        rect = pygame.rect.Rect(self.position.x, self.position.y, self.length * self.sprite.get_width(),
+                                self.sprite.get_height())
         self.rect = rect
 
     def create_image(self):
@@ -168,9 +202,9 @@ class Track(pygame.sprite.Sprite):
     # The tracks width (end of track) - the wagon lengths
     def wagon_x(self, position):
         end_pos = self.rect.width
-        if self.engine_pos is not None:
+        if self.engine is not None:
             position += 1
-            end_pos = self.engine_pos
+            end_pos = self.engine_pos.x
 
         return end_pos - (position + 1) * WAGON_LENGTH
 
@@ -183,5 +217,5 @@ class Track(pygame.sprite.Sprite):
                 self.wagons[i].rect.x = self.wagon_x(i)
                 self.wagons[i].rect.y = self.rect.y
 
-    def set_target(self, target):
-        self.target = target
+        if self.engine is not None:
+            self.engine.update()

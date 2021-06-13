@@ -17,3 +17,4 @@ class Timer:
 
     def update(self):
         self.done = self.startTime + self.countdown_time <= datetime.now()
+        return self.done
