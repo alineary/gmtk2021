@@ -171,7 +171,12 @@ class Beauty(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(image, (size, size))
         self.rect = self.image.get_rect()
         self.rect.center = position
-
+class Tutorial(pygame.sprite.Sprite):
+    def __init__(self, image, position, size_x, size_y):
+        super().__init__()
+        self.image = pygame.transform.scale(image, (size_x, size_y))
+        self.rect = self.image.get_rect()
+        self.rect.center = position
 
 class Track(pygame.sprite.Sprite):
     def __init__(self, position, length, max_wagons, engine_rest_pos=None):
