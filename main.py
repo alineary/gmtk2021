@@ -1,3 +1,5 @@
+import time
+
 import pygame
 import sys
 import random
@@ -101,6 +103,10 @@ def draw():
     wagon_group.draw(screen)
     sprite_group.draw(screen)
     station_group.draw(screen)
+
+    for track in track_group:
+        if track.engine is not None:
+            utils.render_timer(screen, int(track.engine.timer.countdown_time.total_seconds()), track.position + track.timer_offset)
 
     #score
     utils.render_score(screen, 22)

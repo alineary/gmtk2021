@@ -8,7 +8,7 @@ WAGON_LENGTH = 90
 WAGON_Y_OFFSET = -52
 BUFFER_X_OFFSET = -52
 SIZE = 50
-ENGINE_WAIT_TIME = 5
+ENGINE_WAIT_TIME = 9
 
 
 def drive_to_target_if_exists(target, current_pos, speed):
@@ -164,6 +164,7 @@ class Track(pygame.sprite.Sprite):
         self.sprite = pygame.image.load(os.path.join('resources', 'tracks.png'))
         self.buffer_sprite = pygame.image.load(os.path.join('resources', 'bumper.png'))
         self.position = position
+        self.timer_offset = (10, 55)
         self.length = length
         self.wagons = []
         self.engine = None
