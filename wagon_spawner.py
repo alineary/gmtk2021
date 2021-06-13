@@ -5,7 +5,7 @@ import main
 import gameobjects
 import utils
 
-WAGON_TYPES = [traindata.FirstClass, traindata.SecondClass, traindata.OnboardBistro]
+WAGON_TYPES = [traindata.FirstClass, traindata.SecondClass, traindata.OnboardBistro, traindata.Mail]
 WAGON_SPAWN_COOL_DOWN = 2
 
 timer = utils.Timer(0)
