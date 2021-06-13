@@ -39,7 +39,7 @@ class Engine(pygame.sprite.Sprite):
         self.rect.x = track.position.x - self.rect.width
         self.rect.y = track.position.y
         self.timer = utils.Timer(0)
-        self.speed = 5
+        self.speed = 3
 
     def update(self):
         self.listen_on_events()
@@ -51,7 +51,8 @@ class Engine(pygame.sprite.Sprite):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 if self.rect.collidepoint(pos):
-                    self.departure()
+                    if self.track.departure():
+                        self.timer = utils.Timer(ENGINE_WAIT_TIME)
 
     def check_for_new_train_arrivals(self):
         if not self.timer.done:
@@ -71,17 +72,6 @@ class Engine(pygame.sprite.Sprite):
         self.rect.x = next_pos.x
         self.rect.y = next_pos.y
 
-    def departure(self):
-        if not self.timer.done:
-            return
-
-        # TODO: Both can be achieved with track is available
-        for wagon in self.track.wagons:
-            wagon.toggle_draggable(False)
-        self.track.is_available = False
-
-        self.timer = utils.Timer(ENGINE_WAIT_TIME)
-
 
 class Wagon(drag_n_drop.DraggableSprite):
     def __init__(self, wagon_data, position, image):
@@ -91,8 +81,9 @@ class Wagon(drag_n_drop.DraggableSprite):
         self.target = None
         self.position = position
         self.rect.topleft = position
-        self.speed = 5
+        self.speed = 6
         self.track = None
+        self.finished = False
 
     def set_target(self, target):
         self.target = target
@@ -115,11 +106,18 @@ class Wagon(drag_n_drop.DraggableSprite):
             self.rect.y = self.track.rect.y
             self.rect.x = self.track.next_wagon_x()
 
+    def departure(self):
+        self.target = pygame.Vector2(self.track.rect.width, self.rect.y)
+        self.finished = True
+
     def update(self):
         super().update()
         future_pos = drive_to_target_if_exists(self.target, self.rect, self.speed)
         if future_pos is None:
             self.target = None
+            if self.finished:
+                self.track.wagons.remove(self)
+                main.wagon_group.remove(self)
             return
 
         self.rect.x = future_pos.x
@@ -170,7 +168,7 @@ class Track(pygame.sprite.Sprite):
         self.max_wagons = max_wagons
         self.with_buffer_stop = engine_rest_pos is None
         self.engine_pos = None
-        # TODO: Make use of availability
+        # TODO: Make use of availability dragging is not possible, neither FROM nor TO this track
         self.is_available = True
         self.init_engine(engine_rest_pos)
 
@@ -185,6 +183,15 @@ class Track(pygame.sprite.Sprite):
         self.engine = Engine(self)
         main.wagon_group.add(self.engine)
         return
+
+    def departure(self):
+        if not self.engine.timer.done:
+            return False
+        # Todo: The scoring comes here
+        for wagon in self.wagons:
+            wagon.departure()
+        self.is_available = False
+        return True
 
     def add_wagon(self, wagon):
         if self.full() is False:
