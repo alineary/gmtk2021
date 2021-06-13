@@ -1,6 +1,4 @@
-import db_connection
-import psycopg2
-from psycopg2 import sql
+from db_utils import db_connection
 
 conn = db_connection.connect_postgres()
 print(conn)
@@ -22,3 +20,5 @@ def add_new_score(name, score):
     cursor.execute(query, data)
     conn.commit()  # <- We MUST commit to reflect the inserted data
     cursor.close()
+
+print(get_top_five())
