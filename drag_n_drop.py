@@ -2,6 +2,7 @@ import pygame
 import main
 import copy
 import gameobjects
+import sound
 
 import traindata
 
@@ -53,10 +54,12 @@ class DraggableSprite(pygame.sprite.Sprite):
         self.clickOffset.y = pos[1] - self.rect.y
         self.ghost_sprite.image.set_alpha(GHOST_IMAGE_ALPHA)
         self.ghost_sprite.rect = copy.copy(self.rect)
+        sound.pickup_sound()
 
     def on_end_drag(self):
         self.clicked = False
         self.ghost_sprite.image.set_alpha(INVISIBLE_ALPHA)
+        sound.putdown_sound()
 
     def colliding_track(self):
         for track in main.track_group:
