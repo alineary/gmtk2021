@@ -108,6 +108,11 @@ class Wagon(drag_n_drop.DraggableSprite):
             self.rect.y = self.track.rect.y
             self.rect.x = self.track.next_wagon_x()
 
+    def approve(self):
+        self.image = pygame.transform.scale(self.wagon_data.sprite_approved, (SIZE * 2, SIZE * 2))
+    def disapprove(self):
+        self.image = pygame.transform.scale(self.wagon_data.sprite, (SIZE * 2, SIZE * 2))
+
     def departure(self):
         self.target = pygame.Vector2(self.track.rect.width, self.rect.y)
         self.finished = True

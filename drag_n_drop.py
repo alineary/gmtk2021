@@ -1,6 +1,9 @@
 import pygame
 import main
 import copy
+import gameobjects
+
+import traindata
 
 INVISIBLE_ALPHA = 0
 GHOST_IMAGE_ALPHA = 100
@@ -15,6 +18,9 @@ class DraggableSprite(pygame.sprite.Sprite):
         self.clickOffset = pygame.Vector2()
         self.clickOffset.xy = 0, 0
         self.draggable = True
+
+
+
 
     def update(self):
         self.listen_to_events()
