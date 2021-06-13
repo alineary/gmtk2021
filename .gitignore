@@ -1,5 +1,8 @@
 venv
 .idea
 __pycache__
-*.json
 /db_utils/.env
+build
+dist
+WildWagons.spec
+*.pyo
