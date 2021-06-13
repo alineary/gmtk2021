@@ -7,7 +7,7 @@ import pygame
 def render_score(screen, score):
     pygame.font.init()
     myfont = pygame.freetype.Font("resources/PixelOperator.ttf", 50)
-    myfont.render_to(screen, (60, 60), " Score: " + str(score) + " ", (0, 0, 0), (227, 192, 132))
+    myfont.render_to(screen, (60, 60), " Score: " + str(score) + " ", (78, 52, 37), (227, 192, 132))
 
 
 delta_timer = datetime.now()
