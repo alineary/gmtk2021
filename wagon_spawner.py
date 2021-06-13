@@ -4,8 +4,10 @@ import random
 import main
 import gameobjects
 import utils
+from numpy.random import choice
 
 WAGON_TYPES = [traindata.FirstClass, traindata.SecondClass, traindata.OnboardBistro, traindata.Mail]
+WAGON_PROBABILITIES = [0.166666667, 0.5, 0.166666667, 0.166666667]
 WAGON_SPAWN_COOL_DOWN = 2
 START_WAGON_SPAWN_COOLDOWN = 0
 
@@ -17,7 +19,8 @@ def spawn_new_wagon():
         main.end_screen.enable()
         return
 
-    random_wagon = random.choice(WAGON_TYPES)()
+    random_wagon = choice(WAGON_TYPES, 1, p=WAGON_PROBABILITIES, replace=False)[0]()
+    print(random_wagon)
     wagon = gameobjects.Wagon(random_wagon,
                               pygame.Vector2(-100, main.spawn_track.position.y + gameobjects.WAGON_Y_OFFSET),
                               random_wagon.sprite)

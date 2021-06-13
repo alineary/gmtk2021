@@ -24,12 +24,12 @@ MAX_WAGONS_ON_TRACK = 5
 ENGINE_OFFSET = 800
 menu_was_enabled = False
 
-
 def setup():
     global screen
     global clock
     global running
     global screen
+    global score
     global main_menu
     global main_menu_parent
     global wagon_group
@@ -40,6 +40,7 @@ def setup():
     global station_group
     global track_group
     global spawn_track
+    global end_screen_parent
     global end_screen
     global train_group
     global platform_group
@@ -51,6 +52,9 @@ def setup():
 
     clock = pygame.time.Clock()
     running = True
+
+    score = 0
+
     sprite_group = pygame.sprite.Group()
 
     # Trains
@@ -122,11 +126,14 @@ def setup():
 
     main_menu_parent = PauseMenu((1280, 720))
     main_menu = main_menu_parent.pause_menu
-    end_screen = EndMenu((1280, 720)).menu
+    end_screen_parent = EndMenu((1280, 720))
+    end_screen = end_screen_parent.menu
     end_screen.disable()
 
 
 def reset():
+    global score
+
     for track in track_group:
         track.wagons = []
         if track.engine is not None:
@@ -134,6 +141,7 @@ def reset():
             track.init_engine(ENGINE_OFFSET)
     for wagon in wagon_group:
         wagon.kill()
+    score = 0
     wagon_spawner.timer = utils.Timer(wagon_spawner.START_WAGON_SPAWN_COOLDOWN)
 
 
@@ -162,7 +170,7 @@ def draw():
             utils.render_timer(screen, int(track.engine.timer.countdown_time.total_seconds()), track.position + track.timer_offset)
 
     #score
-    utils.render_score(screen, 22)
+    utils.render_score(screen, score)
 
     # menu
     if main_menu.is_enabled():
