@@ -2,6 +2,7 @@ import pygame
 import main
 import copy
 import gameobjects
+import sound
 
 import traindata
 
