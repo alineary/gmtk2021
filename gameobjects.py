@@ -4,6 +4,7 @@ import os
 import utils
 import main
 import traindata
+import sound
 
 WAGON_LENGTH = 90
 WAGON_Y_OFFSET = -52
