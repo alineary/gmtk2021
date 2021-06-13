@@ -33,11 +33,11 @@ class Engine(pygame.sprite.Sprite):
     def __init__(self, track):
         super().__init__()
         self.track = track
-        self.image = pygame.image.load(os.path.join('resources', 'wagons', 'engine.png'))
+        self.image = pygame.transform.scale(pygame.image.load(os.path.join('resources', 'wagons', 'engine.png')), (SIZE * 2, SIZE * 2))
         self.image.convert_alpha()
         self.rect = self.image.get_rect()
         self.rect.x = track.position.x - self.rect.width
-        self.rect.y = track.position.y
+        self.rect.y = track.position.y + WAGON_Y_OFFSET
         self.timer = utils.Timer(0)
         self.speed = 3
 
@@ -181,7 +181,7 @@ class Track(pygame.sprite.Sprite):
     def init_engine(self, engine_rest_pos):
         if engine_rest_pos is None:
             return
-        self.engine_pos = pygame.Vector2(engine_rest_pos, self.position.y)
+        self.engine_pos = pygame.Vector2(engine_rest_pos, self.position.y + WAGON_Y_OFFSET)
         self.engine = Engine(self)
         main.wagon_group.add(self.engine)
         return

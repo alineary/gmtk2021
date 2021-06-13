@@ -20,7 +20,6 @@ ENGINE_OFFSET = 800
 menu_was_enabled = False
 
 
-
 def setup():
     global screen
     global clock
