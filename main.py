@@ -31,6 +31,7 @@ def setup():
     global running
     global screen
     global main_menu
+    global main_menu_parent
     global wagon_group
     global sprite_group
     global draggable_sprites
@@ -119,7 +120,8 @@ def setup():
         else:
             cactus_group.add(beauty)
 
-    main_menu = PauseMenu((1280, 720)).pause_menu
+    main_menu_parent = PauseMenu((1280, 720))
+    main_menu = main_menu_parent.pause_menu
     end_screen = EndMenu((1280, 720)).menu
     end_screen.disable()
 
@@ -188,6 +190,7 @@ def game_loop():
                 sys.exit(0)
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
+                    main_menu_parent.get_scores()
                     main_menu.toggle()
         if not main_menu.is_enabled():
             update()

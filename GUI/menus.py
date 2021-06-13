@@ -37,6 +37,7 @@ class EndMenu:
     def to_main_menu(self):
         self.reset_menu()
         main.reset()
+        main.main_menu_parent.get_scores()
         main.main_menu.enable()
         self.menu.disable()
 
@@ -53,12 +54,13 @@ class EndMenu:
 class PauseMenu:
     def __init__(self, window_size):
         self.window_size = window_size
+        self.labels = []
         self.pause_menu = self.init_menu_surface()
+
 
     def init_menu_surface(self):
         pause_menu = pygame_menu.Menu("", self.window_size[0], self.window_size[1], center_content=True,
                                       theme=wild_west)
-        highscores = db_operations.get_top_five()
 
         pause_menu.add.image("resources/wildwagons_large.png")
         # TODO: Move to botton-left corner
@@ -67,13 +69,22 @@ class PauseMenu:
         pause_menu.add.button('Quit', pygame_menu.events.PYGAME_QUIT, background_color=(101, 66, 41),
                               font_color=(229, 204, 175))
         pause_menu.add.label('Highscores:', font_color=(255, 255, 255))
-        for i in range(len(highscores)):
-            pause_menu.add.label(highscores[i][0] + ': ' + str(highscores[i][1]), font_size=20, font_color=(255, 255, 255))
+        for i in range(5):
+            self.labels.append(pause_menu.add.label('', font_size=20, font_color=(255, 255, 255)))
 
+        self.get_scores()
         return pause_menu
 
     def toggle(self):
         if self.pause_menu.is_enabled():
             self.pause_menu.disable()
         else:
+            self.get_scores()
             self.pause_menu.enable()
+
+    def get_scores(self):
+        highscores = db_operations.get_top_five()
+        for i in range(5):
+            print(highscores[i][0] + ': ' + str(highscores[i][1]))
+            self.labels[i].set_title(highscores[i][0] + ': ' + str(highscores[i][1]))
+        return db_operations.get_top_five()
