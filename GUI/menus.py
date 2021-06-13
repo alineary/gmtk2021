@@ -8,6 +8,7 @@ class EndMenu:
     def __init__(self, window_size):
         self.window_size = window_size
         self.input = None
+        self.score_display = None
         self.submit = None
         self.submitted = False
         self.menu = self.init_menu_surface()
@@ -15,8 +16,7 @@ class EndMenu:
     def init_menu_surface(self):
         menu = pygame_menu.Menu("", self.window_size[0], self.window_size[1], center_content=True,
                                       theme=wild_west)
-
-        menu.add.label('Score: 22', font_size=30, font_color=(255, 255, 255))
+        self.score_display = menu.add.label('Score: ' + str(main.score), font_size=30, font_color=(255, 255, 255))
         menu.add.label('The incoming track was too full', font_size=20, font_color=(255, 255, 255))
         self.input = menu.add.text_input("Name: ", maxchar=15, font_color=(229, 204, 175))
         self.submit = menu.add.button("Submit", self.submit_score, background_color=(101, 66, 41), font_color=(229, 204, 175))
@@ -24,6 +24,9 @@ class EndMenu:
         menu.add.button('Main Menu', self.to_main_menu, background_color=(101, 66, 41), font_color=(229, 204, 175))
 
         return menu
+
+    def update_score(self):
+        self.score_display.set_title('Score: ' + str(main.score))
 
     def reset_menu(self):
         self.submitted = False
@@ -44,7 +47,7 @@ class EndMenu:
         if self.submitted:
             return
         name = self.input.get_value()
-        score = 22
+        score = main.score
         db_operations.add_new_score(name, score)
         self.submit.set_title("Submitted")
         self.submitted = True

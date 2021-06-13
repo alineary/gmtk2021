@@ -1,7 +1,8 @@
 import pygame
-
 import utils
 import os
+
+import main
 
 SCORE_PER_WAGON = 100
 TIME_PENALTY_PER_TRAIN = 5
@@ -43,8 +44,8 @@ def calculate_train_stats(train):
 
         i += 1
 
-    print(time_penalty)
-    print(score)
+    main.score += score
+    main.end_screen_parent.update_score()
 
     return time_penalty * TIME_PENALTY_PER_TRAIN
 
