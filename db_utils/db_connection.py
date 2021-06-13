@@ -12,4 +12,7 @@ DB = os.environ.get('POSTGRES_DB')
 
 
 def connect_postgres():
-    return psycopg2.connect(dbname=DB, user=USER, password=PASSWORD, host=HOST)
+    try:
+        return psycopg2.connect(dbname=DB, user=USER, password=PASSWORD, host=HOST)
+    except psycopg2.OperationalError:
+        return "CONNECTION ERROR #2269"
