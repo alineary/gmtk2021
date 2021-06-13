@@ -1,7 +1,7 @@
 import pygame
 import os
 
-pygame.init()
+# pygame.init()
 def play_music():
     pygame.mixer.music.load(os.path.join('resources', 'sounds', 'music.mp3'))
     pygame.mixer.music.set_volume(0.1)
