@@ -8,6 +8,7 @@ import utils
 import wagon_spawner
 import os
 import gameobjects
+import sound
 
 from GUI.menus import PauseMenu, EndMenu
 
@@ -47,6 +48,8 @@ def setup():
     screen = pygame.display.set_mode([1280, 720])
     pygame.display.set_caption("Wild Wagons")
     pygame.display.set_icon(LOGO)
+
+    sound.play_music()
 
     clock = pygame.time.Clock()
     running = True
@@ -104,7 +107,7 @@ def setup():
 
     # Cactus
     cactus_group = pygame.sprite.Group()
-    for i in range(0, 30):
+    for i in range(0, 100):
         x = random.randrange(32, 1248, 1)
         y = random.randrange(32, 688, 1)
         beauty = gameobjects.Beauty(random.choice(CACTI), pygame.Vector2(x, y), 70)
