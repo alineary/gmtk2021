@@ -51,3 +51,19 @@ class OnboardBistro:
         self.whitelist = [OnboardBistro]
         self.needlist = [FirstClass, SecondClass]
         self.sprite = pygame.image.load(os.path.join('resources/wagons', 'bistro.png'))
+
+
+class Mail:
+    def __init__(self):
+        self.blacklist = []
+        self.whitelist = []
+        self.needlist = []
+        self.sprite = pygame.image.load(os.path.join('resources/wagons', 'mail.png'))
+
+
+class Engine:
+    def __init__(self):
+        self.blacklist = []
+        self.whitelist = []
+        self.needlist = []
+        self.sprite = pygame.image.load(os.path.join('resources/wagons', 'engine.png'))
