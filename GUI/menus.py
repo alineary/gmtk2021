@@ -45,9 +45,10 @@ class EndMenu:
         self.menu.disable()
 
     def submit_score(self):
-        if self.submitted:
-            return
         name = self.input.get_value()
+        if self.submitted or len(name) <= 3:
+            return
+
         score = main.score
         db_operations.add_new_score(name, score)
         self.submit.set_title("Submitted")
