@@ -29,6 +29,11 @@ def calculate_train_stats(train):
         if wagon.neighbour_req and wagon_before not in wagon.neighbour_req and wagon_after not in wagon.neighbour_req:
             time_penalty += 1
 
+        for req_wagon_class in wagon.exact_train_req:
+            if wagons_per_class[wagon_class_pos(req_wagon_class)] != wagon.req_amount and wagons_per_class[wagon_class_pos(req_wagon_class)] != 0:
+                time_penalty += 1
+                break
+
         for req_wagon_class in wagon.min_train_req:
             if wagons_per_class[wagon_class_pos(req_wagon_class)] < wagon.req_amount:
                 time_penalty += 1
@@ -77,6 +82,7 @@ def get_neighbour(wagon_index, train, offset):
 
 class FirstClass:
     def __init__(self):
+        self.exact_train_req = []
         self.min_train_req = []
         self.max_train_req = []
         self.neighbour_req = [FirstClass, OnboardBistro]
@@ -87,7 +93,8 @@ class FirstClass:
 
 class SecondClass:
     def __init__(self):
-        self.min_train_req = [SecondClass]
+        self.exact_train_req = [SecondClass]
+        self.min_train_req = []
         self.max_train_req = []
         self.neighbour_req = []
         self.req_amount = 3
@@ -97,6 +104,7 @@ class SecondClass:
 
 class OnboardBistro:
     def __init__(self):
+        self.exact_train_req = []
         self.min_train_req = []
         self.max_train_req = [OnboardBistro]
         self.neighbour_req = []
@@ -107,6 +115,7 @@ class OnboardBistro:
 
 class Mail:
     def __init__(self):
+        self.exact_train_req = []
         self.min_train_req = [FirstClass, OnboardBistro, SecondClass]
         self.max_train_req = []
         self.neighbour_req = []
