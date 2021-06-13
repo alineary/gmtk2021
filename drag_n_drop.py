@@ -7,10 +7,10 @@ GHOST_IMAGE_ALPHA = 100
 
 
 class DraggableSprite(pygame.sprite.Sprite):
-    def __init__(self, image):
+    def __init__(self, image, scale):
         super().__init__()
-        self.image = image
-        self.ghost_sprite = GhostSprite(copy.copy(image))
+        self.image = pygame.transform.scale(image, (scale, scale))
+        self.ghost_sprite = GhostSprite(pygame.transform.scale(copy.copy(image), (scale, scale)))
         self.clicked = False
         self.clickOffset = pygame.Vector2()
         self.clickOffset.xy = 0, 0

@@ -1,4 +1,7 @@
+import pygame
+
 import utils
+import os
 
 
 def validate_train(train):
@@ -31,6 +34,7 @@ class FirstClass:
         self.blacklist = [SecondClass]
         self.whitelist = []
         self.needlist = [FirstClass, OnboardBistro]
+        self.sprite = pygame.image.load(os.path.join('resources/wagons', 'first_class.png'))
 
 
 class SecondClass:
@@ -38,6 +42,7 @@ class SecondClass:
         self.blacklist = []
         self.whitelist = []
         self.needlist = [FirstClass, OnboardBistro, SecondClass]
+        self.sprite = pygame.image.load(os.path.join('resources/wagons', 'second_class.png'))
 
 
 class OnboardBistro:
@@ -45,3 +50,20 @@ class OnboardBistro:
         self.blacklist = []
         self.whitelist = [OnboardBistro]
         self.needlist = [FirstClass, SecondClass]
+        self.sprite = pygame.image.load(os.path.join('resources/wagons', 'bistro.png'))
+
+
+class Mail:
+    def __init__(self):
+        self.blacklist = []
+        self.whitelist = []
+        self.needlist = []
+        self.sprite = pygame.image.load(os.path.join('resources/wagons', 'mail.png'))
+
+
+class Engine:
+    def __init__(self):
+        self.blacklist = []
+        self.whitelist = []
+        self.needlist = []
+        self.sprite = pygame.image.load(os.path.join('resources/wagons', 'engine.png'))
