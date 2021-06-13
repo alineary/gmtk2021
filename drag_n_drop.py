@@ -58,6 +58,7 @@ class DraggableSprite(pygame.sprite.Sprite):
     def on_end_drag(self):
         self.clicked = False
         self.ghost_sprite.image.set_alpha(INVISIBLE_ALPHA)
+        sound.putdown_sound()
 
     def colliding_track(self):
         for track in main.track_group:
