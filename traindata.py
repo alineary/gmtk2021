@@ -16,36 +16,16 @@ def calculate_train_stats(train):
 
     # Count how many wagons there are of each type
     #
-    wagons_per_class = [0, 0, 0, 0]
-    for wagon in train:
-        wagons_per_class[wagon_class_pos(type(wagon.wagon_data))] += 1
 
     for wagon in train:
-        wagon = wagon.wagon_data
         wagon_before = type(get_neighbour(i, train, -1))
         wagon_after = type(get_neighbour(i, train, 1))
-        time_penalty_before = time_penalty
-
-        if wagon.neighbour_req and wagon_before not in wagon.neighbour_req and wagon_after not in wagon.neighbour_req:
-            time_penalty += 1
-
-        for req_wagon_class in wagon.exact_train_req:
-            if wagons_per_class[wagon_class_pos(req_wagon_class)] != wagon.req_amount and wagons_per_class[wagon_class_pos(req_wagon_class)] != 0:
-                time_penalty += 1
-                break
-
-        for req_wagon_class in wagon.min_train_req:
-            if wagons_per_class[wagon_class_pos(req_wagon_class)] < wagon.req_amount:
-                time_penalty += 1
-                break
-
-        for req_wagon_class in wagon.max_train_req:
-            if wagons_per_class[wagon_class_pos(req_wagon_class)] > wagon.req_amount:
-                time_penalty += 1
-
+        approved = wagon_approved(wagon, train, wagon_before, wagon_after)
         # Grant score when train caused no delay
-        if time_penalty_before == time_penalty:
+        if approved:
             score += SCORE_PER_WAGON
+        else:
+            time_penalty += 1
 
         i += 1
 
@@ -53,6 +33,36 @@ def calculate_train_stats(train):
     main.end_screen_parent.update_score()
 
     return time_penalty * TIME_PENALTY_PER_TRAIN
+
+
+def wagon_approved(wagon, train, wagon_before=None, wagon_after=None):
+    wagon = wagon.wagon_data
+
+    wagons_per_class = [0, 0, 0, 0]
+    for wagon_for_class in train:
+        wagons_per_class[wagon_class_pos(type(wagon_for_class.wagon_data))] += 1
+
+    if wagon.neighbour_req and wagon_before not in wagon.neighbour_req and wagon_after not in wagon.neighbour_req:
+        print("1")
+        return False
+
+    for req_wagon_class in wagon.exact_train_req:
+        if wagons_per_class[wagon_class_pos(req_wagon_class)] != wagon.req_amount and wagons_per_class[
+            wagon_class_pos(req_wagon_class)] != 0:
+            print("2")
+            return False
+
+    for req_wagon_class in wagon.min_train_req:
+        if wagons_per_class[wagon_class_pos(req_wagon_class)] < wagon.req_amount:
+            print("3")
+            return False
+
+    for req_wagon_class in wagon.max_train_req:
+        if wagons_per_class[wagon_class_pos(req_wagon_class)] > wagon.req_amount:
+            print("4")
+            return False
+    print("5")
+    return True
 
 
 def wagon_class_pos(wagon_class):

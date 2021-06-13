@@ -106,15 +106,19 @@ class Wagon(drag_n_drop.DraggableSprite):
         else:
             if new_track is not self.track and not new_track.full() and new_track.is_available:
                 self.track.wagons.remove(self)
+                self.track.update_dependencies()
                 self.track = new_track
                 self.track.wagons.append(self)
+                self.track.update_dependencies()
 
             self.rect.y = self.track.rect.y
             self.rect.x = self.track.next_wagon_x()
 
-    def approve(self):
-        self.image = pygame.transform.scale(self.wagon_data.sprite_approved, (SIZE * 2, SIZE * 2))
-    def disapprove(self):
+    def toggle_approval(self, approved):
+        print(approved)
+        if approved:
+            self.image = pygame.transform.scale(self.wagon_data.sprite_approved, (SIZE * 2, SIZE * 2))
+            return
         self.image = pygame.transform.scale(self.wagon_data.sprite, (SIZE * 2, SIZE * 2))
 
     def departure(self):
@@ -210,6 +214,15 @@ class Track(pygame.sprite.Sprite):
             self.wagons.append(wagon)
             return True
         return False
+
+    def update_dependencies(self):
+        i = 0
+        for wagon in self.wagons:
+            wagon_before = type(traindata.get_neighbour(i, self.wagons, -1))
+            wagon_after = type(traindata.get_neighbour(i, self.wagons, 1))
+            approved = traindata.wagon_approved(wagon, self.wagons, wagon_before, wagon_after)
+            wagon.toggle_approval(approved)
+            i += 1
 
     def create_image(self):
         image = pygame.Surface((self.length * self.sprite.get_width(), self.sprite.get_height()), pygame.SRCALPHA)
