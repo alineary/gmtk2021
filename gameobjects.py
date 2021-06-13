@@ -60,7 +60,6 @@ class Engine(pygame.sprite.Sprite):
     def check_for_new_train_arrivals(self):
         if not self.timer.done:
             if self.timer.update():
-                self.track.is_available = True
                 self.rect.x = self.track.position.x - self.rect.width
 
     def move_train_if_not_waiting(self):
@@ -71,6 +70,7 @@ class Engine(pygame.sprite.Sprite):
 
         next_pos = drive_to_target_if_exists(target, self.rect, self.speed)
         if next_pos is None:
+            self.track.is_available = True if self.timer.done else False
             return
         self.rect.x = next_pos.x
         self.rect.y = next_pos.y

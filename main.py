@@ -24,7 +24,6 @@ MAX_WAGONS_ON_TRACK = 5
 ENGINE_OFFSET = 800
 menu_was_enabled = False
 
-
 def setup():
     global screen
     global clock
@@ -131,6 +130,8 @@ def setup():
 
 
 def reset():
+    global score
+
     for track in track_group:
         track.wagons = []
         if track.engine is not None:
@@ -138,6 +139,7 @@ def reset():
             track.init_engine(ENGINE_OFFSET)
     for wagon in wagon_group:
         wagon.kill()
+    score = 0
     wagon_spawner.timer = utils.Timer(wagon_spawner.START_WAGON_SPAWN_COOLDOWN)
 
 
