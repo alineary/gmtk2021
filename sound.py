@@ -7,6 +7,12 @@ def play_music():
     pygame.mixer.music.set_volume(0.1)
     pygame.mixer.music.play(-1)
 
+def pause_music():
+    pygame.mixer.music.pause()
+
+def unpause_music():
+    pygame.mixer.music.unpause()
+
 def horn_sound():
     horn = pygame.mixer.Sound(os.path.join('resources', 'sounds', 'hornsound2.mp3'))
     horn.set_volume(0.4)
