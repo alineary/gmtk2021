@@ -7,13 +7,14 @@ import utils
 
 WAGON_TYPES = [traindata.FirstClass, traindata.SecondClass, traindata.OnboardBistro, traindata.Mail]
 WAGON_SPAWN_COOL_DOWN = 2
+START_WAGON_SPAWN_COOLDOWN = 0
 
-timer = utils.Timer(0)
+timer = utils.Timer(START_WAGON_SPAWN_COOLDOWN)
 
 
 def spawn_new_wagon():
     if main.spawn_track.full():
-        print("You lost da game")
+        main.end_screen.enable()
         return
 
     random_wagon = random.choice(WAGON_TYPES)()
