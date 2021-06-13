@@ -121,6 +121,7 @@ def game_loop():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     menu.toggle()
-        update()
+        if menu.is_enabled() == False:
+            update()
         draw()
         clock.tick(60)
