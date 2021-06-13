@@ -87,7 +87,7 @@ class PauseMenu:
 
     def get_scores(self):
         highscores = db_operations.get_top_five()
-        for i in range(5):
+        for i in range(len(highscores)):
             print(highscores[i][0] + ': ' + str(highscores[i][1]))
             self.labels[i].set_title(highscores[i][0] + ': ' + str(highscores[i][1]))
         return db_operations.get_top_five()
