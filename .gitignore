@@ -1,6 +1,7 @@
 venv
 .idea
 __pycache__
+/db_utils/.env
 build
 dist
 WildWagons.spec
