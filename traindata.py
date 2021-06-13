@@ -81,6 +81,7 @@ class FirstClass:
         self.neighbour_req = [FirstClass, OnboardBistro]
         self.req_amount = 1
         self.sprite = pygame.image.load(os.path.join('resources/wagons', 'first_class.png'))
+        self.sprite_approved = pygame.image.load(os.path.join('resources/approved', 'first_class_green.png'))
 
 
 class SecondClass:
@@ -90,6 +91,7 @@ class SecondClass:
         self.neighbour_req = []
         self.req_amount = 3
         self.sprite = pygame.image.load(os.path.join('resources/wagons', 'second_class.png'))
+        self.sprite_approved = pygame.image.load(os.path.join('resources/approved', 'second_class_green.png'))
 
 
 class OnboardBistro:
@@ -99,6 +101,7 @@ class OnboardBistro:
         self.neighbour_req = []
         self.req_amount = 1
         self.sprite = pygame.image.load(os.path.join('resources/wagons', 'bistro.png'))
+        self.sprite_approved = pygame.image.load(os.path.join('resources/approved', 'bistro_green.png'))
 
 
 class Mail:
@@ -108,3 +111,4 @@ class Mail:
         self.neighbour_req = []
         self.req_amount = 1
         self.sprite = pygame.image.load(os.path.join('resources/wagons', 'mail.png'))
+        self.sprite_approved = pygame.image.load(os.path.join('resources/approved', 'mail_green.png'))

@@ -9,7 +9,7 @@ WAGON_LENGTH = 90
 WAGON_Y_OFFSET = -52
 BUFFER_X_OFFSET = -52
 SIZE = 50
-ENGINE_WAIT_TIME = 5
+ENGINE_WAIT_TIME = 9
 
 
 def drive_to_target_if_exists(target, current_pos, speed):
@@ -41,7 +41,7 @@ class Engine(pygame.sprite.Sprite):
         self.rect.x = track.position.x - self.rect.width
         self.rect.y = track.position.y + WAGON_Y_OFFSET
         self.timer = utils.Timer(0)
-        self.speed = 3
+        self.speed = 6
 
     def update(self):
         self.listen_on_events()
@@ -111,6 +111,11 @@ class Wagon(drag_n_drop.DraggableSprite):
             self.rect.y = self.track.rect.y
             self.rect.x = self.track.next_wagon_x()
 
+    def approve(self):
+        self.image = pygame.transform.scale(self.wagon_data.sprite_approved, (SIZE * 2, SIZE * 2))
+    def disapprove(self):
+        self.image = pygame.transform.scale(self.wagon_data.sprite, (SIZE * 2, SIZE * 2))
+
     def departure(self):
         self.target = pygame.Vector2(self.track.rect.width, self.rect.y)
         self.finished = True
@@ -167,6 +172,7 @@ class Track(pygame.sprite.Sprite):
         self.sprite = pygame.image.load(os.path.join('resources', 'tracks.png'))
         self.buffer_sprite = pygame.image.load(os.path.join('resources', 'bumper.png'))
         self.position = position
+        self.timer_offset = (10, 55)
         self.length = length
         self.wagons = []
         self.engine = None
@@ -186,7 +192,7 @@ class Track(pygame.sprite.Sprite):
             return
         self.engine_pos = pygame.Vector2(engine_rest_pos, self.position.y + WAGON_Y_OFFSET)
         self.engine = Engine(self)
-        main.wagon_group.add(self.engine)
+        main.train_group.add(self.engine)
         return
 
     def departure(self):
