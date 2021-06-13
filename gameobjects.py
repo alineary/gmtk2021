@@ -6,6 +6,7 @@ import main
 
 WAGON_LENGTH = 90
 WAGON_Y_OFFSET = -52
+BUFFER_X_OFFSET = -52
 SIZE = 50
 ENGINE_WAIT_TIME = 5
 
@@ -32,7 +33,7 @@ class Engine(pygame.sprite.Sprite):
     def __init__(self, track):
         super().__init__()
         self.track = track
-        self.image = pygame.image.load(os.path.join('resources', 'cactus_1.png'))
+        self.image = pygame.image.load(os.path.join('resources', 'wagons', 'engine.png'))
         self.image.convert_alpha()
         self.rect = self.image.get_rect()
         self.rect.x = track.position.x
@@ -156,7 +157,7 @@ class Beauty(pygame.sprite.Sprite):
 
 
 class Track(pygame.sprite.Sprite):
-    def __init__(self, position, length, max_wagons, with_buffer_stop, engine_pos=None):
+    def __init__(self, position, length, max_wagons, engine_pos=None):
         super().__init__()
         self.sprite = pygame.image.load(os.path.join('resources', 'tracks.png'))
         self.buffer_sprite = pygame.image.load(os.path.join('resources', 'bumper.png'))
@@ -165,7 +166,7 @@ class Track(pygame.sprite.Sprite):
         self.wagons = []
         self.engine = None
         self.max_wagons = max_wagons
-        self.with_buffer_stop = with_buffer_stop
+        self.with_buffer_stop = engine_pos is None
         self.engine_pos = None
         # TODO: Make use of availability
         self.is_available = True
@@ -210,8 +211,8 @@ class Track(pygame.sprite.Sprite):
     def wagon_x(self, position):
         end_pos = self.rect.width
         if self.engine is not None:
-            position += 1
             end_pos = self.engine_pos.x
+        end_pos += BUFFER_X_OFFSET if self.with_buffer_stop else 0
 
         return end_pos - (position + 1) * WAGON_LENGTH
 
