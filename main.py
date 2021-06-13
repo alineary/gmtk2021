@@ -1,5 +1,3 @@
-import time
-
 import pygame
 import sys
 import random
@@ -220,9 +218,11 @@ def game_loop():
                 if event.key == pygame.K_ESCAPE:
                     main_menu_parent.get_scores()
                     main_menu.toggle()
-                    sound.pause_music()
+                    if main_menu.is_enabled():
+                        sound.pause_music()
+                    else:
+                        sound.unpause_music()
         if not main_menu.is_enabled():
-            sound.unpause_music()
             update()
             utils.set_delta_time()
         menu_was_enabled = main_menu.is_enabled() or end_screen.is_enabled()

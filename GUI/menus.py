@@ -2,6 +2,7 @@ import pygame_menu
 from db_utils import db_operations
 from GUI.themes.wild_west import wild_west
 import main
+import sound
 
 
 class EndMenu:
@@ -82,6 +83,7 @@ class PauseMenu:
     def toggle(self):
         if self.pause_menu.is_enabled():
             self.pause_menu.disable()
+            sound.unpause_music()
         else:
             self.get_scores()
             self.pause_menu.enable()
