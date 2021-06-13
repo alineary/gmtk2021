@@ -10,6 +10,12 @@ def render_score(screen, score):
     myfont.render_to(screen, (60, 60), " Score: " + str(score) + " ", (78, 52, 37), (227, 192, 132))
 
 
+def render_timer(screen, time, positiontuple):
+    pygame.font.init()
+    myfont = pygame.freetype.Font("resources/PixelOperator.ttf", 20)
+    myfont.render_to(screen, positiontuple, " New train: " + str(time) + " ", (78, 52, 37), (227, 192, 132))
+
+
 delta_timer = datetime.now()
 
 
