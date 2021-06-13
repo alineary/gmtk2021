@@ -4,6 +4,7 @@ import os
 import utils
 import main
 import traindata
+import sound
 
 WAGON_LENGTH = 90
 WAGON_Y_OFFSET = -52
@@ -200,7 +201,9 @@ class Track(pygame.sprite.Sprite):
         return
 
     def departure(self):
-        # Todo: Display scoring here
+        # Todo: The scoring comes here
+        # Play horn Sound
+        sound.horn_sound()
         for wagon in self.wagons:
             wagon.departure()
         self.is_available = False
