@@ -39,7 +39,7 @@ class Engine(pygame.sprite.Sprite):
         self.rect.x = track.position.x - self.rect.width
         self.rect.y = track.position.y + WAGON_Y_OFFSET
         self.timer = utils.Timer(0)
-        self.speed = 3
+        self.speed = 6
 
     def update(self):
         self.listen_on_events()
@@ -183,7 +183,7 @@ class Track(pygame.sprite.Sprite):
             return
         self.engine_pos = pygame.Vector2(engine_rest_pos, self.position.y + WAGON_Y_OFFSET)
         self.engine = Engine(self)
-        main.wagon_group.add(self.engine)
+        main.train_group.add(self.engine)
         return
 
     def departure(self):
