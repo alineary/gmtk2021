@@ -36,7 +36,7 @@ class Engine(pygame.sprite.Sprite):
         self.image = pygame.image.load(os.path.join('resources', 'wagons', 'engine.png'))
         self.image.convert_alpha()
         self.rect = self.image.get_rect()
-        self.rect.x = track.position.x
+        self.rect.x = track.position.x - self.rect.width
         self.rect.y = track.position.y
         self.timer = utils.Timer(0)
         self.speed = 5
@@ -46,22 +46,6 @@ class Engine(pygame.sprite.Sprite):
         self.check_for_new_train_arrivals()
         self.move_train_if_not_waiting()
 
-    def move_train_if_not_waiting(self):
-        # TODO: Target is not necessarily engine_pos
-        next_pos = drive_to_target_if_exists(self.track.engine_pos, self.rect, self.speed)
-        if next_pos is None:
-            return
-        self.rect.x = next_pos.x
-        self.rect.y = next_pos.y
-
-    def check_for_new_train_arrivals(self):
-        if not self.timer.done:
-            if self.timer.update():
-                self.track.is_available = True
-                self.image.set_alpha(255)
-                # TODO: Make a proper start position for this
-                self.rect.x = 0
-
     def listen_on_events(self):
         for event in main.events:
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -69,15 +53,33 @@ class Engine(pygame.sprite.Sprite):
                 if self.rect.collidepoint(pos):
                     self.departure()
 
+    def check_for_new_train_arrivals(self):
+        if not self.timer.done:
+            if self.timer.update():
+                self.track.is_available = True
+                self.rect.x = self.track.position.x - self.rect.width
+
+    def move_train_if_not_waiting(self):
+        if self.timer.done:
+            target = self.track.engine_pos
+        else:
+            target = pygame.Vector2(self.track.rect.width, self.rect.y)
+
+        next_pos = drive_to_target_if_exists(target, self.rect, self.speed)
+        if next_pos is None:
+            return
+        self.rect.x = next_pos.x
+        self.rect.y = next_pos.y
+
     def departure(self):
         if not self.timer.done:
             return
 
+        # TODO: Both can be achieved with track is available
         for wagon in self.track.wagons:
             wagon.toggle_draggable(False)
         self.track.is_available = False
-        # TODO: Instead of invisible, let it drive off (+ wagons)
-        self.image.set_alpha(drag_n_drop.INVISIBLE_ALPHA)
+
         self.timer = utils.Timer(ENGINE_WAIT_TIME)
 
 
@@ -157,7 +159,7 @@ class Beauty(pygame.sprite.Sprite):
 
 
 class Track(pygame.sprite.Sprite):
-    def __init__(self, position, length, max_wagons, engine_pos=None):
+    def __init__(self, position, length, max_wagons, engine_rest_pos=None):
         super().__init__()
         self.sprite = pygame.image.load(os.path.join('resources', 'tracks.png'))
         self.buffer_sprite = pygame.image.load(os.path.join('resources', 'bumper.png'))
@@ -166,20 +168,20 @@ class Track(pygame.sprite.Sprite):
         self.wagons = []
         self.engine = None
         self.max_wagons = max_wagons
-        self.with_buffer_stop = engine_pos is None
+        self.with_buffer_stop = engine_rest_pos is None
         self.engine_pos = None
         # TODO: Make use of availability
         self.is_available = True
-        self.init_engine(engine_pos)
+        self.init_engine(engine_rest_pos)
 
         self.create_image()
         self.rect = self.image.get_rect()
         self.rect.topleft = self.position
 
-    def init_engine(self, engine_pos):
-        if engine_pos is None:
-            return None
-        self.engine_pos = pygame.Vector2(engine_pos, self.position.y)
+    def init_engine(self, engine_rest_pos):
+        if engine_rest_pos is None:
+            return
+        self.engine_pos = pygame.Vector2(engine_rest_pos, self.position.y)
         self.engine = Engine(self)
         main.wagon_group.add(self.engine)
         return
