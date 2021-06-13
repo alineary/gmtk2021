@@ -1,14 +1,13 @@
 import pygame
 import traindata
-import random
 import main
 import gameobjects
 import utils
 from numpy.random import choice
 
 WAGON_TYPES = [traindata.FirstClass, traindata.SecondClass, traindata.OnboardBistro, traindata.Mail]
-WAGON_PROBABILITIES = [0.166666667, 0.5, 0.166666667, 0.166666667]
-WAGON_SPAWN_COOL_DOWN = 2
+WAGON_PROBABILITIES = [0.2, 0.5, 0.2, 0.1]
+WAGON_SPAWN_COOL_DOWN = 3
 START_WAGON_SPAWN_COOLDOWN = 0
 
 timer = utils.Timer(START_WAGON_SPAWN_COOLDOWN)
