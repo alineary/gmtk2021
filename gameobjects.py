@@ -117,8 +117,7 @@ class Wagon(drag_n_drop.DraggableSprite):
             self.rect.x = self.track.next_wagon_x()
 
     def toggle_approval(self, approved):
-        print(approved)
-        if approved:
+        if approved and self.track.engine:
             self.image = pygame.transform.scale(self.wagon_data.sprite_approved, (SIZE * 2, SIZE * 2))
             return
         self.image = pygame.transform.scale(self.wagon_data.sprite, (SIZE * 2, SIZE * 2))
