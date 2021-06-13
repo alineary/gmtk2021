@@ -147,7 +147,8 @@ def reset():
     for wagon in wagon_group:
         wagon.kill()
     score = 0
-    wagon_spawner.timer = utils.Timer(wagon_spawner.START_WAGON_SPAWN_COOLDOWN)
+    wagon_spawner.timer = utils.Timer(wagon_spawner.START_WAGON_SPAWN_COOL_DOWN)
+    wagon_spawner.WAGON_SPAWN_COOL_DOWN = 4
 
 
 def update():
