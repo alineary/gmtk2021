@@ -184,10 +184,12 @@ def draw():
         if main_menu.is_enabled():
             main_menu.draw(screen)
 
+
     if end_screen.is_enabled():
         end_screen.update(events)
         if end_screen.is_enabled():
             end_screen.draw(screen)
+
 
     pygame.display.update()
 
@@ -206,7 +208,9 @@ def game_loop():
                 if event.key == pygame.K_ESCAPE:
                     main_menu_parent.get_scores()
                     main_menu.toggle()
+                    sound.pause_music()
         if not main_menu.is_enabled():
+            sound.unpause_music()
             update()
             utils.set_delta_time()
         menu_was_enabled = main_menu.is_enabled() or end_screen.is_enabled()

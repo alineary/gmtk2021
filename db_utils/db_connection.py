@@ -1,14 +1,13 @@
 import os
 import psycopg2
 
-from dotenv import load_dotenv
+import db_utils.env
 
-load_dotenv()
 
-USER = os.environ.get('POSTGRES_USER')
-PASSWORD = os.environ.get('POSTGRES_PASSWORD')
-HOST = os.environ.get('POSTGRES_HOST')
-DB = os.environ.get('POSTGRES_DB')
+USER = db_utils.env.POSTGRES_USER
+PASSWORD = db_utils.env.POSTGRES_PASSWORD
+HOST = db_utils.env.POSTGRES_HOST
+DB = db_utils.env.POSTGRES_DB
 
 
 def connect_postgres():
