@@ -51,7 +51,8 @@ class Engine(pygame.sprite.Sprite):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 if self.rect.collidepoint(pos):
-                    if self.track.departure():
+                    if self.timer.done and self.rect.x == self.track.engine_pos.x:
+                        self.track.departure()
                         self.timer = utils.Timer(ENGINE_WAIT_TIME)
 
     def check_for_new_train_arrivals(self):
@@ -185,13 +186,10 @@ class Track(pygame.sprite.Sprite):
         return
 
     def departure(self):
-        if not self.engine.timer.done:
-            return False
         # Todo: The scoring comes here
         for wagon in self.wagons:
             wagon.departure()
         self.is_available = False
-        return True
 
     def add_wagon(self, wagon):
         if self.full() is False:
