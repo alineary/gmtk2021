@@ -54,6 +54,7 @@ class DraggableSprite(pygame.sprite.Sprite):
         self.clickOffset.y = pos[1] - self.rect.y
         self.ghost_sprite.image.set_alpha(GHOST_IMAGE_ALPHA)
         self.ghost_sprite.rect = copy.copy(self.rect)
+        sound.pickup_sound()
 
     def on_end_drag(self):
         self.clicked = False
