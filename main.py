@@ -102,6 +102,9 @@ def draw():
     sprite_group.draw(screen)
     station_group.draw(screen)
 
+    #score
+    utils.render_score(screen, 22)
+
     # menu
     if menu.is_enabled():
         menu.update(events)
