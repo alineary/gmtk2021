@@ -1,6 +1,8 @@
 import pygame
 import sys
 import random
+
+import utils
 import wagon_spawner
 import os
 import gameobjects
@@ -15,6 +17,8 @@ CACTI = [pygame.image.load(os.path.join('resources', 'cactus_1.png')),
          pygame.image.load(os.path.join('resources', 'cactus_3.png'))]
 MAX_WAGONS_ON_TRACK = 5
 ENGINE_OFFSET = 800
+menu_was_enabled = False
+
 
 
 def setup():
@@ -110,6 +114,7 @@ def draw():
 
 def game_loop():
     global events
+    global menu_was_enabled
 
     setup()
     while running:
@@ -122,5 +127,7 @@ def game_loop():
                     menu.toggle()
         if not menu.is_enabled():
             update()
+            utils.set_delta_time()
+        menu_was_enabled = menu.is_enabled()
         draw()
         clock.tick(60)

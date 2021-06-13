@@ -91,6 +91,7 @@ class Wagon(drag_n_drop.DraggableSprite):
 
     def on_begin_drag(self, pos):
         super().on_begin_drag(pos)
+        self.target = None
 
     def on_end_drag(self):
         super().on_end_drag()
