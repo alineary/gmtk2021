@@ -3,6 +3,7 @@ import os
 
 pygame.init()
 
+
 def horn_sound():
     horn = pygame.mixer.Sound(os.path.join('resources', 'sounds', 'horn.mp3'))
     horn.set_volume(0.4)

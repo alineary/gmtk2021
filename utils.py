@@ -31,3 +31,4 @@ class Timer:
     def update(self):
         self.countdown_time = self.countdown_time - get_delta_time()
         self.done = self.countdown_time <= timedelta()
+        return self.done

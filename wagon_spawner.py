@@ -5,11 +5,10 @@ import main
 import gameobjects
 import utils
 
-
 WAGON_TYPES = [traindata.FirstClass, traindata.SecondClass, traindata.OnboardBistro]
-WAGON_SPAWN_COOL_DOWN = 10
+WAGON_SPAWN_COOL_DOWN = 2
 
-timer = utils.Timer(WAGON_SPAWN_COOL_DOWN)
+timer = utils.Timer(0)
 
 
 def spawn_new_wagon():
@@ -18,11 +17,14 @@ def spawn_new_wagon():
         return
 
     random_wagon = random.choice(WAGON_TYPES)()
-    wagon = gameobjects.Wagon(random_wagon, pygame.Vector2(-100, main.spawn_track.position.y + gameobjects.WAGON_Y_OFFSET), random_wagon.sprite)
+    wagon = gameobjects.Wagon(random_wagon,
+                              pygame.Vector2(-100, main.spawn_track.position.y + gameobjects.WAGON_Y_OFFSET),
+                              random_wagon.sprite)
 
     main.wagon_group.add(wagon)
     main.sprite_group.add(wagon.ghost_sprite)
-    wagon.set_target(pygame.Vector2(main.spawn_track.next_wagon_x(), main.spawn_track.position.y + gameobjects.WAGON_Y_OFFSET))
+    wagon.set_target(
+        pygame.Vector2(main.spawn_track.next_wagon_x(), main.spawn_track.position.y + gameobjects.WAGON_Y_OFFSET))
     main.spawn_track.add_wagon(wagon)
     wagon.track = main.spawn_track
     return wagon

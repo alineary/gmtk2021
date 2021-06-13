@@ -16,7 +16,9 @@ CACTI = [pygame.image.load(os.path.join('resources', 'cactus_1.png')),
          pygame.image.load(os.path.join('resources', 'cactus_2.png')),
          pygame.image.load(os.path.join('resources', 'cactus_3.png'))]
 MAX_WAGONS_ON_TRACK = 5
+ENGINE_OFFSET = 800
 menu_was_enabled = False
+
 
 
 def setup():
@@ -50,9 +52,9 @@ def setup():
 
     # Tracks
     track_group = pygame.sprite.Group()
-    spawn_track = gameobjects.Track(pygame.Vector2(0, 250), 17, MAX_WAGONS_ON_TRACK, True)
-    track1 = gameobjects.Track(pygame.Vector2(0, 400), 26, MAX_WAGONS_ON_TRACK, False)
-    track2 = gameobjects.Track(pygame.Vector2(0, 550), 26, MAX_WAGONS_ON_TRACK, False)
+    spawn_track = gameobjects.Track(pygame.Vector2(0, 250), 17, MAX_WAGONS_ON_TRACK)
+    track1 = gameobjects.Track(pygame.Vector2(0, 400), 26, MAX_WAGONS_ON_TRACK, ENGINE_OFFSET)
+    track2 = gameobjects.Track(pygame.Vector2(0, 550), 26, MAX_WAGONS_ON_TRACK, ENGINE_OFFSET)
     track_group.add(spawn_track)
     track_group.add(track1)
     track_group.add(track2)
@@ -73,9 +75,11 @@ def setup():
         x = random.randrange(32, 1248, 1)
         y = random.randrange(32, 688, 1)
         beauty = gameobjects.Beauty(random.choice(CACTI), pygame.Vector2(x, y), 70)
-        if len(pygame.sprite.spritecollide(beauty, station_group, False)) > 0 or len(
-                pygame.sprite.spritecollide(beauty, cactus_group, False)) > 0 or len(
-                pygame.sprite.spritecollide(beauty, track_group, False)) > 0:
+        if len(pygame.sprite.spritecollide(beauty, station_group, False)) > 0 or \
+                len(
+                    pygame.sprite.spritecollide(beauty, cactus_group, False)) > 0 or \
+                len(
+                    pygame.sprite.spritecollide(beauty, track_group, False)) > 0:
             beauty.kill()
         else:
             cactus_group.add(beauty)
@@ -121,7 +125,7 @@ def game_loop():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     menu.toggle()
-        if menu.is_enabled() == False:
+        if not menu.is_enabled():
             update()
             utils.set_delta_time()
         menu_was_enabled = menu.is_enabled()
