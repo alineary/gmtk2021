@@ -58,7 +58,6 @@ class Engine(pygame.sprite.Sprite):
     def check_for_new_train_arrivals(self):
         if not self.timer.done:
             if self.timer.update():
-                self.track.is_available = True
                 self.rect.x = self.track.position.x - self.rect.width
 
     def move_train_if_not_waiting(self):
@@ -69,6 +68,7 @@ class Engine(pygame.sprite.Sprite):
 
         next_pos = drive_to_target_if_exists(target, self.rect, self.speed)
         if next_pos is None:
+            self.track.is_available = True if self.timer.done else False
             return
         self.rect.x = next_pos.x
         self.rect.y = next_pos.y
@@ -100,7 +100,7 @@ class Wagon(drag_n_drop.DraggableSprite):
             self.rect.x = self.ghost_sprite.rect.x
             self.rect.y = self.ghost_sprite.rect.y
         else:
-            if new_track is not self.track and new_track.full() is False:
+            if new_track is not self.track and not new_track.full() and new_track.is_available:
                 self.track.wagons.remove(self)
                 self.track = new_track
                 self.track.wagons.append(self)
