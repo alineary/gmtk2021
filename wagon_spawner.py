@@ -6,7 +6,7 @@ import utils
 from numpy.random import choice
 
 WAGON_TYPES = [traindata.FirstClass, traindata.SecondClass, traindata.OnboardBistro, traindata.Mail]
-WAGON_PROBABILITIES = [0.3, 0.5, 0.15, 0.05]
+WAGON_PROBABILITIES = [0.2, 0.5, 0.2, 0.1]
 WAGON_SPAWN_COOL_DOWN = 3
 START_WAGON_SPAWN_COOLDOWN = 0
 

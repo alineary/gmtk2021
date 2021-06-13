@@ -4,7 +4,7 @@ import os
 
 import main
 
-SCORE_PER_WAGON = 100
+SCORE_PER_WAGON = 200
 TIME_PENALTY_PER_TRAIN = 5
 
 
