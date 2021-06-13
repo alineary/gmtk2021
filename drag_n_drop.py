@@ -19,9 +19,6 @@ class DraggableSprite(pygame.sprite.Sprite):
         self.clickOffset.xy = 0, 0
         self.draggable = True
 
-
-
-
     def update(self):
         self.listen_to_events()
         self.move_sprite()
